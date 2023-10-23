@@ -1,2 +1,2 @@
-# MyFirstPythonProject
-My project on Yandex lyceum
+# My Financial Assistant
+
