@@ -1785,3 +1785,59 @@ class RegistrationWindow(QMainWindow):
 
     def closeWindow(self):
         sys.exit(app.exec_())
+
+class LoadingWindow(QMainWindow):
+    def __init__(self, login):
+        self.login = login
+        super().__init__()
+        f = io.StringIO(LoadWindow)
+        uic.loadUi(f, self)
+        self.endLoad = False
+        self.n = 100
+        self.initUi()
+
+    def initUi(self):
+        f = io.StringIO(LoadWindow)
+        uic.loadUi(f, self)
+        self.BackgroundUpdate(NAME)
+        self.WindowTransparency()
+        self.timer = QtCore.QTimer()
+        with open('LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
+            data = file.read()
+        if data == 'True':
+            self.checkBox.setChecked(True)
+        self.timer.setInterval(100)
+        self.timer.timeout.connect(self.run)
+        QtCore.QTimer.singleShot(100, self.timer.start)
+        self.pushButton.clicked.connect(self.GoEnd)
+
+    def run(self):
+        for i in range(self.n):
+            time.sleep(0.01)
+            self.progressBar.setValue(i + 1)
+        self.timer.stop()
+        if self.checkBox.isChecked():
+            self.GoEnd()
+
+    def BackgroundUpdate(self, fileName):
+        self.label.setStyleSheet("""border-image: url(:/pictures/IMG_20231008_160145_933.jpg);
+                border-radius: 35px""")
+
+    def WindowTransparency(self):
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+    def GoEnd(self):
+        if self.checkBox.isChecked():
+            with open('LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
+                file.write('True')
+        con1 = sqlite3.connect('UsersInformat')
+        cur1 = con1.cursor()
+        count = cur1.execute(f"SELECT numberofauthorizations FROM inf WHERE username = '{self.login}'").fetchall()[0][0]
+        count = int(count) + 1
+        cur1.execute(f"UPDATE inf SET numberofauthorizations = {count} WHERE username = '{self.login}'")
+        con1.commit()
+        con1.close()
+        self.hide()
+        self.app2 = MainWindow(self.login)
+        self.app2.show()
