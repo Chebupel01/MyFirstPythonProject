@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="pictures">
+    <file>Рамка для аватарки1.png</file>
+    <file>Рамка для аватарки.png</file>
+    <file>Картинка для настроек.jpg</file>
+    <file>ErrorBackground.jpg</file>
+    <file>Иконка приложения.png</file>
+    <file>Без названия (2).png</file>
+    <file>Без названия (1).png</file>
+    <file>Без названия.png</file>
+    <file>images.jpg</file>
+    <file>IMG_20231008_160145_933.jpg</file>
+    <file>F8fDYJzboAAbCup.png.png</file>
+  </qresource>
+</RCC>

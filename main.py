@@ -2,15 +2,13 @@ import sys
 import io
 import time
 from datetime import datetime
-from PyQt5.QtGui import QPixmap, QTransform, QColor, QImage
 from PyQt5 import uic  # Импортируем uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QLabel, QWidget
-from PyQt5.QtCore import QPoint
-from res_rc import *
-from res_rc1 import *
-from res_rc2 import *
-from res_rc3 import *
-from res_rc4 import *
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from FilesForImportingImages.res_rc2 import *
+from FilesForImportingImages.res_rc1 import *
+from FilesForImportingImages.res_rc4 import *
+from FilesForImportingImages.res_rc3 import *
+from FilesForImportingImages.res_rc import *
 import sqlite3
 
 NAME = 'picture.png'
@@ -1684,7 +1682,7 @@ class RegistrationWindow(QMainWindow):
         uic.loadUi(f, self)
         self.BackgroundUpdate(NAME)
         self.WindowTransparency()
-        con = sqlite3.connect('RecordedLoginAndPassword')
+        con = sqlite3.connect('Databases/RecordedLoginAndPassword')
         cur = con.cursor()
         data = cur.execute("""SELECT * FROM loginpassword WHERE id = '1'""").fetchall()
         if data:
@@ -1713,12 +1711,12 @@ class RegistrationWindow(QMainWindow):
             self.ReLogResult.setText('Введите пароль')
         else:
             self.login = self.enterLogin.text()
-            con = sqlite3.connect('LoginsAndPasswords')
+            con = sqlite3.connect('Databases/LoginsAndPasswords')
             cur = con.cursor()
             LoginAndPassword = cur.execute(f"""SELECT * FROM logpass WHERE
              login = '{self.enterLogin.text()}'""").fetchall()
             if LoginAndPassword != [] and LoginAndPassword[0][1] == self.enterPassword.text():
-                con1 = sqlite3.connect('RecordedLoginAndPassword')
+                con1 = sqlite3.connect('Databases/RecordedLoginAndPassword')
                 cur1 = con1.cursor()
                 if self.reminderButton.isChecked():
                     login = self.enterLogin.text()
@@ -1745,7 +1743,7 @@ class RegistrationWindow(QMainWindow):
         elif self.enterPassword.text() == '' and self.enterLogin.text() != '':
             self.ReLogResult.setText('Введите пароль')
         else:
-            con = sqlite3.connect('LoginsAndPasswords')
+            con = sqlite3.connect('Databases/LoginsAndPasswords')
             cur = con.cursor()
             logins = cur.execute(f"""SELECT login FROM logpass WHERE login = '{self.enterLogin.text()}'""").fetchall()
             passwords = (cur.execute(f"""SELECT password FROM logpass
@@ -1768,7 +1766,7 @@ class RegistrationWindow(QMainWindow):
                 passw = self.enterPassword.text()
                 date = datetime.datetime.now().date()
                 zero = 0
-                con1 = sqlite3.connect('UsersInformat')
+                con1 = sqlite3.connect('Databases/UsersInformat')
                 cur1 = con1.cursor()
                 cur1.execute(f"INSERT INTO inf (username, balance, numberofauthorizations, registrationdate,"
                              f" daysintheapp, numberoftransactions) VALUES('{self.login}', '0', '0', '{date}', '0', '0')")
@@ -1802,7 +1800,7 @@ class LoadingWindow(QMainWindow):
         self.BackgroundUpdate(NAME)
         self.WindowTransparency()
         self.timer = QtCore.QTimer()
-        with open('LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
+        with open('OtherFiles/LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
             data = file.read()
         if data == 'True':
             self.checkBox.setChecked(True)
@@ -1829,9 +1827,9 @@ class LoadingWindow(QMainWindow):
 
     def GoEnd(self):
         if self.checkBox.isChecked():
-            with open('LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
+            with open('OtherFiles/LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
                 file.write('True')
-        con1 = sqlite3.connect('UsersInformat')
+        con1 = sqlite3.connect('Databases/UsersInformat')
         cur1 = con1.cursor()
         count = cur1.execute(f"SELECT numberofauthorizations FROM inf WHERE username = '{self.login}'").fetchall()[0][0]
         count = int(count) + 1
@@ -1864,7 +1862,7 @@ class MainWindow(QMainWindow):
 
     def UpdateInformation(self):
         self.login.setText(self.loginText)
-        con1 = sqlite3.connect('UsersInformat')
+        con1 = sqlite3.connect('Databases/UsersInformat')
         cur1 = con1.cursor()
         data = cur1.execute(f"SELECT balance, registrationdate, numberoftransactions FROM inf WHERE username "
                             f"= '{self.loginText}'").fetchall()
@@ -1902,10 +1900,10 @@ class SettingsWindow(QMainWindow):
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
 
     def DisableAutomaticLoginFunction(self):
-        with open('LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
+        with open('OtherFiles/LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
             condition = file.readline()
         if condition == 'True':
-            with open('LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
+            with open('OtherFiles/LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
                 file.write('False')
         else:
             self.app5 = ErrorDisableAutomaticLoginWindow()
