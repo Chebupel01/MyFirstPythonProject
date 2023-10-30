@@ -1841,3 +1841,42 @@ class LoadingWindow(QMainWindow):
         self.hide()
         self.app2 = MainWindow(self.login)
         self.app2.show()
+
+class MainWindow(QMainWindow):
+    def __init__(self, login):
+        self.loginText = login
+        super().__init__()
+        f = io.StringIO(MainWindowTemplate)
+        uic.loadUi(f, self)
+        self.BackgroundUpdate(NAME)
+        self.WindowTransparency()
+        self.UpdateInformation()
+        self.settings.clicked.connect(self.OpenSettings)
+
+    def BackgroundUpdate(self, fileName):
+        self.background.setStyleSheet("""border-image: url(:/pictures/images.jpg);
+                border-radius: 35px""")
+        self.avatarFrame.setStyleSheet("""border-image: url(:/pictures/Рамка для аватарки.png)""")
+
+    def WindowTransparency(self):
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+    def UpdateInformation(self):
+        self.login.setText(self.loginText)
+        con1 = sqlite3.connect('UsersInformat')
+        cur1 = con1.cursor()
+        data = cur1.execute(f"SELECT balance, registrationdate, numberoftransactions FROM inf WHERE username "
+                            f"= '{self.loginText}'").fetchall()
+        self.balance.setText(f'Ваш баланс: {data[0][0]}')
+        date = datetime.now().date()
+        date1 = data[0][1]
+        date1 = '/'.join(date1.split('-')[::-1])
+        date2 = datetime.strptime(f'{date1}', '%d/%m/%Y')
+        self.userInformation.setText(f'Информация:\n\nДата регистрации:\n\n{data[0][1]}\n\nВ приложении:\n\n{(date - date2.date()).days} дней\n\nКоличество транзакций:\n\n{data[0][2]}')
+        con1.close()
+
+
+    def OpenSettings(self):
+        self.app4 = SettingsWindow()
+        self.app4.show()
