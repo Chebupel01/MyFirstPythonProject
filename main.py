@@ -1880,3 +1880,65 @@ class MainWindow(QMainWindow):
     def OpenSettings(self):
         self.app4 = SettingsWindow()
         self.app4.show()
+
+class SettingsWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        f = io.StringIO(settingsTemplate)
+        uic.loadUi(f, self)
+        self.BackgroundUpdate(NAME)
+        self.WindowTransparency()
+        self.disableAutomaticLoginButton.clicked.connect(self.DisableAutomaticLoginFunction)
+        self.exitButton.clicked.connect(self.ExitProgram)
+        self.closeSettingsButton.clicked.connect(self.closeSettings)
+
+
+    def BackgroundUpdate(self, fileName):
+        self.background.setStyleSheet("""border-image: url(:/pictures/Картинка для настроек.jpg);
+                border-radius: 35px""")
+
+    def WindowTransparency(self):
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+    def DisableAutomaticLoginFunction(self):
+        with open('LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
+            condition = file.readline()
+        if condition == 'True':
+            with open('LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
+                file.write('False')
+        else:
+            self.app5 = ErrorDisableAutomaticLoginWindow()
+            self.app5.show()
+
+    def ExitProgram(self):
+        sys.exit(app.exec_())
+
+    def closeSettings(self):
+        self.hide()
+
+class ErrorDisableAutomaticLoginWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        f = io.StringIO(errorDisableAutomaticLoginTemplate)
+        uic.loadUi(f, self)
+        self.BackgroundUpdate(NAME)
+        self.WindowTransparency()
+        self.exitFromError.clicked.connect(self.closeError)
+
+    def BackgroundUpdate(self, fileName):
+        self.background.setStyleSheet("""border-image: url(:/pictures/ErrorBackground.jpg);
+                border-radius: 35px""")
+
+    def WindowTransparency(self):
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+    def closeError(self):
+        self.hide()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = RegistrationWindow()
+    ex.show()
+    sys.exit(app.exec_())
