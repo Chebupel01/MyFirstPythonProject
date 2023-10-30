@@ -1677,3 +1677,111 @@ border-radius: 9px;</string>
  <connections/>
 </ui>
 """
+class RegistrationWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        f = io.StringIO(ReLogWindow)
+        uic.loadUi(f, self)
+        self.BackgroundUpdate(NAME)
+        self.WindowTransparency()
+        con = sqlite3.connect('RecordedLoginAndPassword')
+        cur = con.cursor()
+        data = cur.execute("""SELECT * FROM loginpassword WHERE id = '1'""").fetchall()
+        if data:
+            self.enterLogin.setText(data[-1][1])
+            self.enterPassword.setText(data[-1][2])
+            self.reminderButton.setChecked(True)
+        con.close()
+        self.logButton.clicked.connect(self.log)
+        self.regButton.clicked.connect(self.reg)
+        self.closeWindowButton.clicked.connect(self.closeWindow)
+
+    def BackgroundUpdate(self, fileName):
+        self.label.setStyleSheet("""border-image: url(:/picture/F8fDYJzboAAbCup.png);
+        border-radius: 35px""")
+
+    def WindowTransparency(self):
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+    def log(self):
+        if self.enterPassword.text() == '' and self.enterLogin.text() == '':
+            self.ReLogResult.setText('Введите логин и пароль')
+        elif self.enterPassword.text() != '' and self.enterLogin.text() == '':
+            self.ReLogResult.setText('Введите логин')
+        elif self.enterPassword.text() == '' and self.enterLogin.text() != '':
+            self.ReLogResult.setText('Введите пароль')
+        else:
+            self.login = self.enterLogin.text()
+            con = sqlite3.connect('LoginsAndPasswords')
+            cur = con.cursor()
+            LoginAndPassword = cur.execute(f"""SELECT * FROM logpass WHERE
+             login = '{self.enterLogin.text()}'""").fetchall()
+            if LoginAndPassword != [] and LoginAndPassword[0][1] == self.enterPassword.text():
+                con1 = sqlite3.connect('RecordedLoginAndPassword')
+                cur1 = con1.cursor()
+                if self.reminderButton.isChecked():
+                    login = self.enterLogin.text()
+                    passw = self.enterPassword.text()
+                    cur1.execute(f"INSERT INTO loginpassword (id,login,password) VALUES('1', '{login}', '{passw}')")
+                    con1.commit()
+                    con1.close
+                    self.GoEnd()
+                else:
+                    cur1.execute("""DELETE FROM loginpassword WHERE id = '1'""")
+                    a = cur1.execute("""SELECT * FROM loginpassword""").fetchall()
+                    con1.commit()
+                    con1.close()
+                    self.GoEnd()
+            else:
+                self.ReLogResult.setText('Неверный логин или пароль')
+            con.close()
+
+    def reg(self):
+        if self.enterPassword.text() == '' and self.enterLogin.text() == '':
+            self.ReLogResult.setText('Введите логин и пароль')
+        elif self.enterPassword.text() != '' and self.enterLogin.text() == '':
+            self.ReLogResult.setText('Введите логин')
+        elif self.enterPassword.text() == '' and self.enterLogin.text() != '':
+            self.ReLogResult.setText('Введите пароль')
+        else:
+            con = sqlite3.connect('LoginsAndPasswords')
+            cur = con.cursor()
+            logins = cur.execute(f"""SELECT login FROM logpass WHERE login = '{self.enterLogin.text()}'""").fetchall()
+            passwords = (cur.execute(f"""SELECT password FROM logpass
+             WHERE password = '{self.enterPassword.text()}'""").fetchall())
+            if logins and not passwords:
+                self.ReLogResult.setText('Данный логин занят')
+                self.enterLogin.setText('')
+            elif not logins and passwords:
+                self.ReLogResult.setText('Данный пароль занят')
+                self.enterPassword.setText('')
+            elif logins and passwords:
+                self.ReLogResult.setText('Данные логин и пароль заняты')
+                self.enterLogin.setText('')
+                self.enterPassword.setText('')
+            elif len(self.enterLogin.text()) > 14:
+                self.ReLogResult.setText('Логин слишком длинный')
+                self.enterLogin.setText('')
+            else:
+                self.login = self.enterLogin.text()
+                passw = self.enterPassword.text()
+                date = datetime.datetime.now().date()
+                zero = 0
+                con1 = sqlite3.connect('UsersInformat')
+                cur1 = con1.cursor()
+                cur1.execute(f"INSERT INTO inf (username, balance, numberofauthorizations, registrationdate,"
+                             f" daysintheapp, numberoftransactions) VALUES('{self.login}', '0', '0', '{date}', '0', '0')")
+                con1.commit()
+                cur.execute(f"INSERT INTO logpass (login,password) VALUES('{self.login}', '{passw}')")
+                con.commit()
+                self.ReLogResult.setText('Вы успешно зарегистрировались!')
+            con.close()
+
+    def GoEnd(self):
+        self.hide()
+        self.app2 = LoadingWindow(self.login)
+        self.app2.show()
+
+    def closeWindow(self):
+        sys.exit(app.exec_())
