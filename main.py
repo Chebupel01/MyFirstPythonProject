@@ -3,12 +3,15 @@ import io
 import time
 from datetime import datetime
 from PyQt5 import uic  # Импортируем uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 from FilesForImportingImages.res_rc2 import *
 from FilesForImportingImages.res_rc1 import *
 from FilesForImportingImages.res_rc4 import *
 from FilesForImportingImages.res_rc3 import *
 from FilesForImportingImages.res_rc import *
+from OtherFiles import *
+from openpyxl import load_workbook
+from openpyxl.writer.excel import save_workbook
 import sqlite3
 
 NAME = 'picture.png'
@@ -616,24 +619,27 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1170</width>
-    <height>800</height>
+    <width>1200</width>
+    <height>1200</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1008</width>
-    <height>800</height>
+    <width>1200</width>
+    <height>1200</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1200</width>
-    <height>800</height>
+    <height>1200</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
@@ -737,7 +743,8 @@ background-color: rgba(255,33,100, 100);
 </string>
     </property>
     <property name="text">
-     <string>Конвертатор валют</string>
+     <string>Конвертатор
+валют</string>
     </property>
    </widget>
    <widget class="QLabel" name="currencyConverterLabel">
@@ -793,7 +800,8 @@ background-color: rgba(255,33,100,100);
 </string>
     </property>
     <property name="text">
-     <string>Менеджер расходов</string>
+     <string>Менеджер
+расходов</string>
     </property>
    </widget>
    <widget class="QLabel" name="expenseManagerLabel">
@@ -849,7 +857,8 @@ background-color: rgba(255,33,100,100);
 </string>
     </property>
     <property name="text">
-     <string>Менеджер доходов</string>
+     <string>Менеджер
+доходов</string>
     </property>
    </widget>
    <widget class="QLabel" name="revenueManagerLabel">
@@ -905,7 +914,8 @@ background-color: rgba(255,33,100,100);
 </string>
     </property>
     <property name="text">
-     <string>Планировщик целей</string>
+     <string>Планировщик
+целей</string>
     </property>
    </widget>
    <widget class="QLabel" name="goalPlannerManager">
@@ -933,6 +943,9 @@ border-radius:50px</string>
       <width>85</width>
       <height>85</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{
@@ -970,7 +983,7 @@ border-radius: 45px;</string>
      <rect>
       <x>30</x>
       <y>160</y>
-      <width>971</width>
+      <width>961</width>
       <height>550</height>
      </rect>
     </property>
@@ -979,7 +992,7 @@ border-radius: 45px;</string>
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>971</width>
+       <width>961</width>
        <height>551</height>
       </rect>
      </property>
@@ -1080,7 +1093,8 @@ background-color: rgbargba(44, 109, 168, 150);
 }</string>
      </property>
      <property name="text">
-      <string>Изменить профиль</string>
+      <string>Изменить
+профиль</string>
      </property>
     </widget>
     <widget class="QLabel" name="balance">
@@ -1120,10 +1134,9 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 15px;
-color: white;
-background-color:rgba(44, 109, 168, 210);
-border: 5px solid rgba(255, 255, 255, 250);</string>
+      <string notr="true">border-radius: 5px;
+color: black;
+background-color:rgba(44, 109, 168, 210);</string>
      </property>
     </widget>
     <widget class="QLabel" name="recentTransactionLabel">
@@ -1217,6 +1230,926 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="revenueManagerMenu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>961</width>
+      <height>550</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="revenueManagerPlace">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>961</width>
+       <height>551</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="revenueMenuLabel">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>10</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Менеджер доходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="revenueHistoryLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>421</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>История доходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="revenueTransactions">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>150</y>
+       <width>421</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 3px;
+color: black;
+background-color:rgba(34, 139, 34, 210);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="sortRevenueLabel">
+     <property name="geometry">
+      <rect>
+       <x>36</x>
+       <y>115</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Сортировать по</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="sortRevenueParameter">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>120</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Дата</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Категория</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>От максимального</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>От минимального</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="updateRevenueButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>117</y>
+       <width>111</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(34, 139, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Обновить</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="addRevenueLabel">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>70</y>
+       <width>391</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Добавление доходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="revenueSummaLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>110</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Сумма</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="revenueSummaEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>159</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(34, 139, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (3125)</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="revenueCategoryEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>259</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(34, 139, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (Зарплата, перевод)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="revenueCategoryLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Категория</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="revenueSourceEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>359</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(34, 139, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (Работа, бизнес)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="revenueSourceLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>310</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Источник дохода</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addRevenue">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>410</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(34, 139, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Добавить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="createRevenueFileGraphicDiagramButton">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>470</y>
+       <width>451</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(34, 139, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(34, 139, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Создать файл/график/диаграмму</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="addRevenueErrorLabel">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>10</y>
+       <width>241</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="expenseManagerMenu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>961</width>
+      <height>550</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="expenseManagerPlace">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>961</width>
+       <height>551</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="expenseMenuLabel">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>10</y>
+       <width>331</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Менеджер расходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="expenseHistoryLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>421</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>История расходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="expenseTransactions">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>150</y>
+       <width>421</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="sortExpenseLabel">
+     <property name="geometry">
+      <rect>
+       <x>36</x>
+       <y>115</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Сортировать по</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="sortExpenseParameter">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>120</y>
+       <width>141</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>Дата</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Категория</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>От максимальной суммы</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>От минимальной суммы</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Источник </string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="updateExpenseButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>118</y>
+       <width>111</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(178, 34, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Обновить</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="addExpenseLabel">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>70</y>
+       <width>391</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Добавление расходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="expenseSummaLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>110</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Сумма</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="expenseSummaEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>159</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(178, 34, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (3125)</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="expenseCategoryEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>259</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="accessibleName">
+      <string/>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(178, 34, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="text">
+      <string notr="true"/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (Покупка, перевод)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="expenseCategoryLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>210</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Категория</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="expenseSourceEnter">
+     <property name="geometry">
+      <rect>
+       <x>542</x>
+       <y>359</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 150);
+background-color:rgba(178, 34, 34, 210);
+border: 2px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Например (Интернет-магазин, магазин одежды)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="expenseSourceLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>310</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 15px;
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 5px solid rgba(255, 255, 255, 250);</string>
+     </property>
+     <property name="text">
+      <string>Источник расходов</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addExpense">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>410</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(178, 34, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Добавить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="createExpenseFileGraphicDiagramButton">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>470</y>
+       <width>451</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+background-color:rgba(178, 34, 34, 210);
+border: 3px solid rgba(255, 255, 255, 250);
+}
+
+QPushButton:hover {
+background-color:rgba(178, 34, 34, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Создать файл/график/диаграмму</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="addExpenseErrorLabel">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>10</y>
+       <width>241</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
    <zorder>background</zorder>
    <zorder>mainMenuLabel</zorder>
    <zorder>currencyConverterLabel</zorder>
@@ -1231,10 +2164,12 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
    <zorder>goalPlanner</zorder>
    <zorder>mainMenu</zorder>
    <zorder>MainMenu</zorder>
+   <zorder>revenueManagerMenu</zorder>
+   <zorder>expenseManagerMenu</zorder>
   </widget>
  </widget>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../../../Файлы/res.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -1764,13 +2699,16 @@ class RegistrationWindow(QMainWindow):
             else:
                 self.login = self.enterLogin.text()
                 passw = self.enterPassword.text()
-                date = datetime.datetime.now().date()
-                zero = 0
+                date = datetime.now().date()
+                print(1)
                 con1 = sqlite3.connect('Databases/UsersInformat')
                 cur1 = con1.cursor()
+                print(1)
                 cur1.execute(f"INSERT INTO inf (username, balance, numberofauthorizations, registrationdate,"
                              f" daysintheapp, numberoftransactions) VALUES('{self.login}', '0', '0', '{date}', '0', '0')")
+                print(1)
                 con1.commit()
+                print(1)
                 cur.execute(f"INSERT INTO logpass (login,password) VALUES('{self.login}', '{passw}')")
                 con.commit()
                 self.ReLogResult.setText('Вы успешно зарегистрировались!')
@@ -1829,13 +2767,13 @@ class LoadingWindow(QMainWindow):
         if self.checkBox.isChecked():
             with open('OtherFiles/LoadCheckbox.txt', mode='w', encoding='UTF-8') as file:
                 file.write('True')
-        con1 = sqlite3.connect('Databases/UsersInformat')
-        cur1 = con1.cursor()
-        count = cur1.execute(f"SELECT numberofauthorizations FROM inf WHERE username = '{self.login}'").fetchall()[0][0]
+        con = sqlite3.connect('Databases/UsersInformat')
+        cur = con.cursor()
+        count = cur.execute(f"SELECT numberofauthorizations FROM inf WHERE username = '{self.login}'").fetchall()[0][0]
         count = int(count) + 1
-        cur1.execute(f"UPDATE inf SET numberofauthorizations = {count} WHERE username = '{self.login}'")
-        con1.commit()
-        con1.close()
+        cur.execute(f"UPDATE inf SET numberofauthorizations = {count} WHERE username = '{self.login}'")
+        con.commit()
+        con.close()
         self.hide()
         self.app2 = MainWindow(self.login)
         self.app2.show()
@@ -1849,7 +2787,23 @@ class MainWindow(QMainWindow):
         self.BackgroundUpdate(NAME)
         self.WindowTransparency()
         self.UpdateInformation()
+        self.hideMenu()
+        self.sortRevenueParameter.addItem('Источник')
+        self.MainMenu.show()
+        self.mainMenu.clicked.connect(self.OpenMainMenu)
+        self.revenueManager.clicked.connect(self.OpenRevenueManager)
+        self.expenseManager.clicked.connect(self.OpenExpenseManager)
         self.settings.clicked.connect(self.OpenSettings)
+        self.addRevenue.clicked.connect(self.createRevenue)
+        self.addExpense.clicked.connect(self.createExpense)
+        self.UpdateRevenueTransactions()
+        self.updateRevenueButton.clicked.connect(self.UpdateRevenueTransactions)
+
+
+    def hideMenu(self):
+        self.expenseManagerMenu.hide()
+        self.revenueManagerMenu.hide()
+        self.MainMenu.hide()
 
     def BackgroundUpdate(self, fileName):
         self.background.setStyleSheet("""border-image: url(:/pictures/images.jpg);
@@ -1871,9 +2825,146 @@ class MainWindow(QMainWindow):
         date1 = data[0][1]
         date1 = '/'.join(date1.split('-')[::-1])
         date2 = datetime.strptime(f'{date1}', '%d/%m/%Y')
-        self.userInformation.setText(f'Информация:\n\nДата регистрации:\n\n{data[0][1]}\n\nВ приложении:\n\n{(date - date2.date()).days} дней\n\nКоличество транзакций:\n\n{data[0][2]}')
+        self.userInformation.setText(f'Информация:\n\nДата регистрации:\n\n{data[0][1]}\n\nВ приложении:'
+                                     f'\n\n{(date - date2.date()).days} дней\n\nКоличество транзакций:\n\n{data[0][2]}')
         con1.close()
+        self.recentTransactions.clear()
+        self.recentTransactions.setRowCount(0)
+        wb = load_workbook('ДенежныеТранзакции.xlsx')
+        sheetnames = wb.sheetnames
+        self.recentTransactions.setColumnCount(5)
+        self.recentTransactions.setHorizontalHeaderLabels(['Доходы\nРасходы','Сумма', 'Источник', 'Категория', 'Дата'])
+        if self.loginText in sheetnames:
+            ws = wb[self.loginText]
+            indexation = 1
+            data = []
+            while ws[f'E{indexation}'].value is not None:
+                data.append([ws[f'E{indexation}'].value, ws[f'A{indexation}'].value, ws[f'B{indexation}'].value,
+                             ws[f'C{indexation}'].value, ws[f'D{indexation}'].value])
+                indexation += 1
+        for i, row in enumerate(data[::-1][0:10]):
+            self.recentTransactions.setRowCount(self.recentTransactions.rowCount() + 1)
+            self.recentTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
+            self.recentTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
+            self.recentTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
+            self.recentTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+            self.recentTransactions.setItem(i, 4, QTableWidgetItem(str(row[4])))
+        wb.close()
 
+    def OpenMainMenu(self):
+        self.hideMenu()
+        self.UpdateInformation()
+        self.MainMenu.show()
+    def OpenRevenueManager(self):
+        self.hideMenu()
+        self.UpdateInformation()
+        self.revenueManagerMenu.show()
+
+    def createRevenue(self):
+        try:
+            a = int(self.revenueSummaEnter.text())
+            if (self.revenueSummaEnter.text() == '' or self.revenueSourceEnter.text() == ''
+                    or self.revenueCategoryEnter.text() == ''):
+                self.addRevenueErrorLabel.setText('Ошибка: Заполните все поля')
+            else:
+                wb = load_workbook('ДенежныеТранзакции.xlsx')
+                sheetnames = wb.sheetnames
+                if self.loginText in sheetnames:
+                    ws = wb[self.loginText]
+                else:
+                    ws = wb.create_sheet(self.loginText)
+                ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
+                           datetime.now(), 'Д'])
+                wb.save('ДенежныеТранзакции.xlsx')
+                wb.close()
+                con = sqlite3.connect('Databases/UsersInformat')
+                cur = con.cursor()
+                balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
+                                    f" = '{self.loginText}'").fetchall()[0][0]
+                count = int(count) + 1
+                balance = int(balance) + int(self.revenueSummaEnter.text())
+                cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
+                cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
+                con.commit()
+                con.close()
+                self.revenueSummaEnter.setText('')
+                self.revenueSourceEnter.setText('')
+                self.revenueCategoryEnter.setText('')
+                self.addRevenueErrorLabel.setText('')
+        except Exception:
+            self.addRevenueErrorLabel.setText('Ошибка: Сумма должна \nсостоять из цифр')
+
+
+    def UpdateRevenueTransactions(self):
+        self.revenueTransactions.clear()
+        self.revenueTransactions.setRowCount(0)
+        wb = load_workbook('ДенежныеТранзакции.xlsx')
+        sheetnames = wb.sheetnames
+        if self.loginText in sheetnames:
+            ws = wb[self.loginText]
+            indexation = 1
+            data = []
+            while ws[f'E{indexation}'].value is not None:
+                if ws[f'E{indexation}'].value == 'Д':
+                    data.append([ws[f'A{indexation}'].value, ws[f'B{indexation}'].value, ws[f'C{indexation}'].value,
+                                ws[f'D{indexation}'].value])
+                indexation += 1
+        self.revenueTransactions.setColumnCount(4)
+        self.revenueTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
+        if self.sortRevenueParameter.currentText() == 'Дата':
+            data = data[::-1]
+        elif self.sortRevenueParameter.currentText() == 'Категория':
+            data = sorted(data, key=lambda x: (x[2], int(x[0])))[::-1]
+        elif self.sortRevenueParameter.currentText() == 'От максимального':
+            data = sorted(data, key=lambda x: int(x[0]))[::-1]
+        elif self.sortRevenueParameter.currentText() == 'От минимального':
+            data = sorted(data, key=lambda x: int(x[0]))
+        elif self.sortRevenueParameter.currentText() == 'Источник':
+            data = sorted(data, key=lambda x: (x[1], int(x[0])))[::-1]
+        for i, row in enumerate(data):
+            self.revenueTransactions.setRowCount(self.revenueTransactions.rowCount() + 1)
+            self.revenueTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
+            self.revenueTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
+            self.revenueTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
+            self.revenueTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+        wb.close()
+
+
+
+    def createExpense(self):
+        if (self.revenueSummaEnter.text() == '' or self.revenueSourceEnter.text() == ''
+                or self.revenueCategoryEnter.text() == ''):
+            pass
+        else:
+            wb = load_workbook('ДенежныеТранзакции.xlsx')
+            sheetnames = wb.sheetnames
+            if self.loginText in sheetnames:
+                ws = wb[self.loginText]
+            else:
+                ws = wb.create_sheet(self.loginText)
+            ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
+                       datetime.now(), 'Д'])
+            wb.save('ДенежныеТранзакции.xlsx')
+            wb.close()
+            con = sqlite3.connect('Databases/UsersInformat')
+            cur = con.cursor()
+            balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+            count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
+                                f" = '{self.loginText}'").fetchall()[0][0]
+            count = int(count) + 1
+            print(self.revenueSummaEnter.text())
+            balance = int(balance) + int(self.revenueSummaEnter.text())
+            cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
+            cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
+            con.commit()
+            con.close()
+            self.revenueSummaEnter.setText('')
+            self.revenueSourceEnter.setText('')
+            self.revenueCategoryEnter.setText('')
+    def OpenExpenseManager(self):
+        self.hideMenu()
+        self.expenseManagerMenu.show()
 
     def OpenSettings(self):
         self.app4 = SettingsWindow()
@@ -1889,7 +2980,6 @@ class SettingsWindow(QMainWindow):
         self.disableAutomaticLoginButton.clicked.connect(self.DisableAutomaticLoginFunction)
         self.exitButton.clicked.connect(self.ExitProgram)
         self.closeSettingsButton.clicked.connect(self.closeSettings)
-
 
     def BackgroundUpdate(self, fileName):
         self.background.setStyleSheet("""border-image: url(:/pictures/Картинка для настроек.jpg);
