@@ -1,0 +1,3 @@
+openpyxl==3.0.9
+PyQt5==5.15.6
+sqlite3==3.36.1
