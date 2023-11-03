@@ -1777,10 +1777,9 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 15px;
-color: white;
-background-color:rgba(178, 34, 34, 210);
-border: 5px solid rgba(255, 255, 255, 250);</string>
+      <string notr="true">border-radius: 3px;
+color: black;
+background-color:rgba(178, 34, 34, 210);</string>
      </property>
     </widget>
     <widget class="QLabel" name="sortExpenseLabel">
@@ -2700,15 +2699,11 @@ class RegistrationWindow(QMainWindow):
                 self.login = self.enterLogin.text()
                 passw = self.enterPassword.text()
                 date = datetime.now().date()
-                print(1)
                 con1 = sqlite3.connect('Databases/UsersInformat')
                 cur1 = con1.cursor()
-                print(1)
                 cur1.execute(f"INSERT INTO inf (username, balance, numberofauthorizations, registrationdate,"
                              f" daysintheapp, numberoftransactions) VALUES('{self.login}', '0', '0', '{date}', '0', '0')")
-                print(1)
                 con1.commit()
-                print(1)
                 cur.execute(f"INSERT INTO logpass (login,password) VALUES('{self.login}', '{passw}')")
                 con.commit()
                 self.ReLogResult.setText('Вы успешно зарегистрировались!')
@@ -2796,8 +2791,8 @@ class MainWindow(QMainWindow):
         self.settings.clicked.connect(self.OpenSettings)
         self.addRevenue.clicked.connect(self.createRevenue)
         self.addExpense.clicked.connect(self.createExpense)
-        self.UpdateRevenueTransactions()
         self.updateRevenueButton.clicked.connect(self.UpdateRevenueTransactions)
+        self.updateExpenseButton.clicked.connect(self.UpdateExpenseTransactions)
 
 
     def hideMenu(self):
@@ -2842,14 +2837,14 @@ class MainWindow(QMainWindow):
                 data.append([ws[f'E{indexation}'].value, ws[f'A{indexation}'].value, ws[f'B{indexation}'].value,
                              ws[f'C{indexation}'].value, ws[f'D{indexation}'].value])
                 indexation += 1
-        for i, row in enumerate(data[::-1][0:10]):
-            self.recentTransactions.setRowCount(self.recentTransactions.rowCount() + 1)
-            self.recentTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
-            self.recentTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
-            self.recentTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
-            self.recentTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
-            self.recentTransactions.setItem(i, 4, QTableWidgetItem(str(row[4])))
-        wb.close()
+            for i, row in enumerate(data[::-1][0:10]):
+                self.recentTransactions.setRowCount(self.recentTransactions.rowCount() + 1)
+                self.recentTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
+                self.recentTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
+                self.recentTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
+                self.recentTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+                self.recentTransactions.setItem(i, 4, QTableWidgetItem(str(row[4])))
+            wb.close()
 
     def OpenMainMenu(self):
         self.hideMenu()
@@ -2910,60 +2905,98 @@ class MainWindow(QMainWindow):
                     data.append([ws[f'A{indexation}'].value, ws[f'B{indexation}'].value, ws[f'C{indexation}'].value,
                                 ws[f'D{indexation}'].value])
                 indexation += 1
-        self.revenueTransactions.setColumnCount(4)
-        self.revenueTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
-        if self.sortRevenueParameter.currentText() == 'Дата':
-            data = data[::-1]
-        elif self.sortRevenueParameter.currentText() == 'Категория':
-            data = sorted(data, key=lambda x: (x[2], int(x[0])))[::-1]
-        elif self.sortRevenueParameter.currentText() == 'От максимального':
-            data = sorted(data, key=lambda x: int(x[0]))[::-1]
-        elif self.sortRevenueParameter.currentText() == 'От минимального':
-            data = sorted(data, key=lambda x: int(x[0]))
-        elif self.sortRevenueParameter.currentText() == 'Источник':
-            data = sorted(data, key=lambda x: (x[1], int(x[0])))[::-1]
-        for i, row in enumerate(data):
-            self.revenueTransactions.setRowCount(self.revenueTransactions.rowCount() + 1)
-            self.revenueTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
-            self.revenueTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
-            self.revenueTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
-            self.revenueTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
-        wb.close()
+            self.revenueTransactions.setColumnCount(4)
+            self.revenueTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
+            if self.sortRevenueParameter.currentText() == 'Дата':
+                data = data[::-1]
+            elif self.sortRevenueParameter.currentText() == 'Категория':
+                data = sorted(data, key=lambda x: (x[2], int(x[0])))[::-1]
+            elif self.sortRevenueParameter.currentText() == 'От максимального':
+                data = sorted(data, key=lambda x: int(x[0]))[::-1]
+            elif self.sortRevenueParameter.currentText() == 'От минимального':
+                data = sorted(data, key=lambda x: int(x[0]))
+            elif self.sortRevenueParameter.currentText() == 'Источник':
+                data = sorted(data, key=lambda x: (x[1], int(x[0])))[::-1]
+            for i, row in enumerate(data):
+                self.revenueTransactions.setRowCount(self.revenueTransactions.rowCount() + 1)
+                self.revenueTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
+                self.revenueTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
+                self.revenueTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
+                self.revenueTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+            wb.close()
 
-
+    def UpdateExpenseTransactions(self):
+        self.expenseTransactions.clear()
+        self.expenseTransactions.setRowCount(0)
+        wb = load_workbook('ДенежныеТранзакции.xlsx')
+        sheetnames = wb.sheetnames
+        if self.loginText in sheetnames:
+            ws = wb[self.loginText]
+            indexation = 1
+            data = []
+            while ws[f'E{indexation}'].value is not None:
+                if ws[f'E{indexation}'].value == 'Р':
+                    data.append([ws[f'A{indexation}'].value, ws[f'B{indexation}'].value, ws[f'C{indexation}'].value,
+                                ws[f'D{indexation}'].value])
+                indexation += 1
+            self.expenseTransactions.setColumnCount(4)
+            self.expenseTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
+            if self.sortExpenseParameter.currentText() == 'Дата':
+                data = data[::-1]
+            elif self.sortExpenseParameter.currentText() == 'Категория':
+                data = sorted(data, key=lambda x: (x[2], int(x[0])))[::-1]
+            elif self.sortExpenseParameter.currentText() == 'От максимальной суммы':
+                data = sorted(data, key=lambda x: int(x[0]))[::-1]
+            elif self.sortExpenseParameter.currentText() == 'От минимальной суммы':
+                data = sorted(data, key=lambda x: int(x[0]))
+            elif self.sortExpenseParameter.currentText() == 'Источник':
+                data = sorted(data, key=lambda x: (x[1], int(x[0])))[::-1]
+            for i, row in enumerate(data):
+                self.expenseTransactions.setRowCount(self.revenueTransactions.rowCount() + 1)
+                self.expenseTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
+                self.expenseTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
+                self.expenseTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
+                self.expenseTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+            wb.close()
 
     def createExpense(self):
-        if (self.revenueSummaEnter.text() == '' or self.revenueSourceEnter.text() == ''
-                or self.revenueCategoryEnter.text() == ''):
-            pass
-        else:
-            wb = load_workbook('ДенежныеТранзакции.xlsx')
-            sheetnames = wb.sheetnames
-            if self.loginText in sheetnames:
-                ws = wb[self.loginText]
+        try:
+            a = int(self.expenseSummaEnter.text())
+            if (self.expenseSummaEnter.text() == '' or self.expenseSourceEnter.text() == ''
+                    or self.expenseCategoryEnter.text() == ''):
+                self.addExpenseErrorLabel.setText('Ошибка: Заполните все поля')
             else:
-                ws = wb.create_sheet(self.loginText)
-            ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
-                       datetime.now(), 'Д'])
-            wb.save('ДенежныеТранзакции.xlsx')
-            wb.close()
-            con = sqlite3.connect('Databases/UsersInformat')
-            cur = con.cursor()
-            balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
-            count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
-                                f" = '{self.loginText}'").fetchall()[0][0]
-            count = int(count) + 1
-            print(self.revenueSummaEnter.text())
-            balance = int(balance) + int(self.revenueSummaEnter.text())
-            cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
-            cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
-            con.commit()
-            con.close()
-            self.revenueSummaEnter.setText('')
-            self.revenueSourceEnter.setText('')
-            self.revenueCategoryEnter.setText('')
+                wb = load_workbook('ДенежныеТранзакции.xlsx')
+                sheetnames = wb.sheetnames
+                if self.loginText in sheetnames:
+                    ws = wb[self.loginText]
+                else:
+                    ws = wb.create_sheet(self.loginText)
+                ws.append(
+                    [self.expenseSummaEnter.text(), self.expenseSourceEnter.text(), self.expenseCategoryEnter.text(),
+                     datetime.now(), 'Р'])
+                wb.save('ДенежныеТранзакции.xlsx')
+                wb.close()
+                con = sqlite3.connect('Databases/UsersInformat')
+                cur = con.cursor()
+                balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
+                                    f" = '{self.loginText}'").fetchall()[0][0]
+                count = int(count) + 1
+                balance = int(balance) - int(self.expenseSummaEnter.text())
+                cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
+                cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
+                con.commit()
+                con.close()
+                self.expenseSummaEnter.setText('')
+                self.expenseSourceEnter.setText('')
+                self.expenseCategoryEnter.setText('')
+                self.addExpenseErrorLabel.setText('')
+        except Exception:
+            self.addExpenseErrorLabel.setText('Ошибка: Сумма должна \nсостоять из цифр')
     def OpenExpenseManager(self):
         self.hideMenu()
+        self.UpdateExpenseTransactions()
         self.expenseManagerMenu.show()
 
     def OpenSettings(self):
