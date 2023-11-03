@@ -619,21 +619,29 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>1200</height>
+    <width>1093</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1200</width>
-    <height>1200</height>
+    <width>1008</width>
+    <height>800</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1200</width>
-    <height>1200</height>
+    <height>800</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -649,6 +657,12 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
      <width>1031</width>
      <height>741</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1031</width>
+     <height>741</height>
+    </size>
    </property>
    <widget class="QLabel" name="background">
     <property name="geometry">
@@ -1134,9 +1148,9 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 5px;
-color: black;
-background-color:rgba(44, 109, 168, 210);</string>
+      <string notr="true">color: black;
+background-color:rgba(44, 109, 168, 210);
+</string>
      </property>
     </widget>
     <widget class="QLabel" name="recentTransactionLabel">
@@ -1326,9 +1340,9 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 3px;
-color: black;
-background-color:rgba(34, 139, 34, 210);</string>
+      <string notr="true">color: black;
+background-color:rgba(34, 139, 34, 210);
+</string>
      </property>
     </widget>
     <widget class="QLabel" name="sortRevenueLabel">
@@ -1659,9 +1673,9 @@ background-color:rgba(34, 139, 34, 100);
     <widget class="QLabel" name="addRevenueErrorLabel">
      <property name="geometry">
       <rect>
-       <x>700</x>
-       <y>10</y>
-       <width>241</width>
+       <x>670</x>
+       <y>20</y>
+       <width>271</width>
        <height>41</height>
       </rect>
      </property>
@@ -1674,10 +1688,10 @@ background-color:rgba(34, 139, 34, 100);
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: white</string>
+      <string notr="true">color: white;</string>
      </property>
      <property name="text">
-      <string/>
+      <string>TextLabel</string>
      </property>
     </widget>
    </widget>
@@ -1777,9 +1791,9 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-radius: 3px;
-color: black;
-background-color:rgba(178, 34, 34, 210);</string>
+      <string notr="true">color: black;
+background-color:rgba(178, 34, 34, 210);
+</string>
      </property>
     </widget>
     <widget class="QLabel" name="sortExpenseLabel">
@@ -2127,9 +2141,9 @@ background-color:rgba(178, 34, 34, 100);
     <widget class="QLabel" name="addExpenseErrorLabel">
      <property name="geometry">
       <rect>
-       <x>700</x>
-       <y>10</y>
-       <width>241</width>
+       <x>670</x>
+       <y>20</y>
+       <width>271</width>
        <height>41</height>
       </rect>
      </property>
@@ -2142,12 +2156,1264 @@ background-color:rgba(178, 34, 34, 100);
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: white</string>
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="goalPlannerMenu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>961</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="goalPlannerPlace">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>961</width>
+       <height>551</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;</string>
      </property>
      <property name="text">
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="goalPlannerLabel">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>10</y>
+       <width>330</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Планировщик целей</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress1">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>100</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel1">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>60</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel2">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>170</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress2">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>210</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel3">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>280</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress3">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>320</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel4">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>390</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress4">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>430</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel5">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>60</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress5">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>100</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel6">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>170</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress6">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>210</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel7">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>280</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress7">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>320</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalProgressLabel8">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>390</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Не используется</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="goalProgress8">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>430</y>
+       <width>311</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{
+background-color: rgb(124, 113, 116);
+border-radius: 12px;
+color: white;
+text-align: center;
+border: 2px solid rgba(255, 255, 255, 250);
+}
+
+QProgressBar::chunk{
+border-radius: 12px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:0, stop:0 rgba(179, 65, 149), stop:1 rgba(179, 65, 244, 255));
+}</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="updateGoals">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>102</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-radius: 10px;
+background-color:qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));
+color: white;
+border: 2px solid rgba(255, 33, 100, 230);
+}
+
+QPushButton:hover {
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 200), stop:1 rgba(255, 255, 255, 200));
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Обновить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="createGoal">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>180</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-radius: 10px;
+background-color:qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));
+color: white;
+border: 2px solid rgba(255, 33, 100, 230);
+}
+
+QPushButton:hover {
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 200), stop:1 rgba(255, 255, 255, 200));
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Создать</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="editGoal">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>260</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-radius: 10px;
+background-color:qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));
+color: white;
+border: 2px solid rgba(255, 33, 100, 230);
+}
+
+QPushButton:hover {
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 200), stop:1 rgba(255, 255, 255, 200));
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Редактировать</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="addGoal" native="true">
+     <property name="geometry">
+      <rect>
+       <x>329</x>
+       <y>49</y>
+       <width>321</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 10px;
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));</string>
+     </property>
+     <widget class="QLabel" name="addGoalLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Создать цель</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalNameLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>70</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Название</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalTargetLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>150</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Цель</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="selectColorLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>240</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Цвет</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="enterGoalName">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>115</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="enterGoalTarget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>195</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="selectColor">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>281</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Синий</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Красный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Жёлтый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Чёрный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Фиолетовый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Зелёный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Оранжевый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Розовый</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QPushButton" name="addGoalButton">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>330</y>
+        <width>211</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>Создать</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="closeAddGoalWindowButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(255,33,100,150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addGoalResult">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>390</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:white;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="goalNumber_1">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>100</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>210</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>2</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>320</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>3</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_4">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>430</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>4</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_5">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>100</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>5</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_6">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>210</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>6</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_7">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>320</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>7</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="goalNumber_8">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>430</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addProgress">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>340</y>
+       <width>141</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+border-radius: 10px;
+background-color:qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));
+color: white;
+border: 2px solid rgba(255, 33, 100, 230);
+}
+
+QPushButton:hover {
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 200), stop:1 rgba(255, 255, 255, 200));
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Добавить
+прогреcc  цели</string>
+     </property>
+    </widget>
+    <zorder>goalPlannerPlace</zorder>
+    <zorder>goalPlannerLabel</zorder>
+    <zorder>goalProgress1</zorder>
+    <zorder>goalProgressLabel1</zorder>
+    <zorder>goalProgressLabel2</zorder>
+    <zorder>goalProgress2</zorder>
+    <zorder>goalProgressLabel3</zorder>
+    <zorder>goalProgress3</zorder>
+    <zorder>goalProgressLabel4</zorder>
+    <zorder>goalProgress4</zorder>
+    <zorder>goalProgressLabel5</zorder>
+    <zorder>goalProgress5</zorder>
+    <zorder>goalProgressLabel6</zorder>
+    <zorder>goalProgress6</zorder>
+    <zorder>goalProgressLabel7</zorder>
+    <zorder>goalProgress7</zorder>
+    <zorder>goalProgressLabel8</zorder>
+    <zorder>goalProgress8</zorder>
+    <zorder>updateGoals</zorder>
+    <zorder>createGoal</zorder>
+    <zorder>editGoal</zorder>
+    <zorder>goalNumber_1</zorder>
+    <zorder>goalNumber_2</zorder>
+    <zorder>goalNumber_3</zorder>
+    <zorder>goalNumber_4</zorder>
+    <zorder>goalNumber_5</zorder>
+    <zorder>goalNumber_6</zorder>
+    <zorder>goalNumber_7</zorder>
+    <zorder>goalNumber_8</zorder>
+    <zorder>addProgress</zorder>
+    <zorder>addGoal</zorder>
    </widget>
    <zorder>background</zorder>
    <zorder>mainMenuLabel</zorder>
@@ -2165,10 +3431,11 @@ background-color:rgba(178, 34, 34, 100);
    <zorder>MainMenu</zorder>
    <zorder>revenueManagerMenu</zorder>
    <zorder>expenseManagerMenu</zorder>
+   <zorder>goalPlannerMenu</zorder>
   </widget>
  </widget>
  <resources>
-  <include location="../../../Файлы/res.qrc"/>
+  <include location="res.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -2785,19 +4052,26 @@ class MainWindow(QMainWindow):
         self.hideMenu()
         self.sortRevenueParameter.addItem('Источник')
         self.MainMenu.show()
+        self.addRevenueErrorLabel.setText('')
         self.mainMenu.clicked.connect(self.OpenMainMenu)
         self.revenueManager.clicked.connect(self.OpenRevenueManager)
         self.expenseManager.clicked.connect(self.OpenExpenseManager)
+        self.goalPlanner.clicked.connect(self.OpenGoalPlannerMenu)
         self.settings.clicked.connect(self.OpenSettings)
+        self.createGoal.clicked.connect(self.OpenAddGoal)
         self.addRevenue.clicked.connect(self.createRevenue)
         self.addExpense.clicked.connect(self.createExpense)
         self.updateRevenueButton.clicked.connect(self.UpdateRevenueTransactions)
         self.updateExpenseButton.clicked.connect(self.UpdateExpenseTransactions)
-
+        self.closeAddGoalWindowButton.clicked.connect(self.closeAddGoalWindow)
+        self.addGoalButton.clicked.connect(self.addGoalFunction)
+        self.colors = {'Синий': 'blue', 'Красный': 'red', 'Жёлтый': 'yellow', 'Чёрный': 'black', 'Фиолетовый': 'violet',
+                       'Зелёный': 'green', 'Оранжевый': 'orange', 'Розовый': 'pink', 'Голубой': 'yellow'}
 
     def hideMenu(self):
         self.expenseManagerMenu.hide()
         self.revenueManagerMenu.hide()
+        self.goalPlannerMenu.hide()
         self.MainMenu.hide()
 
     def BackgroundUpdate(self, fileName):
@@ -2852,41 +4126,54 @@ class MainWindow(QMainWindow):
         self.MainMenu.show()
     def OpenRevenueManager(self):
         self.hideMenu()
-        self.UpdateInformation()
+        self.UpdateRevenueTransactions()
         self.revenueManagerMenu.show()
+
+    def OpenAddGoal(self):
+        self.hideMenu()
+        self.OpenGoalPlannerMenu()
+        self.addGoal.show()
+
+    def OpenGoalPlannerMenu(self):
+        self.hideMenu()
+        self.addGoal.hide()
+        self.goalPlannerMenu.show()
 
     def createRevenue(self):
         try:
             a = int(self.revenueSummaEnter.text())
-            if (self.revenueSummaEnter.text() == '' or self.revenueSourceEnter.text() == ''
-                    or self.revenueCategoryEnter.text() == ''):
-                self.addRevenueErrorLabel.setText('Ошибка: Заполните все поля')
+            if a < 0:
+                self.addRevenueErrorLabel.setText('Ошибка: Укажите сумму без минуса')
             else:
-                wb = load_workbook('ДенежныеТранзакции.xlsx')
-                sheetnames = wb.sheetnames
-                if self.loginText in sheetnames:
-                    ws = wb[self.loginText]
+                if (self.revenueSummaEnter.text() == '' or self.revenueSourceEnter.text() == ''
+                        or self.revenueCategoryEnter.text() == ''):
+                    self.addRevenueErrorLabel.setText('Ошибка: Заполните все поля')
                 else:
-                    ws = wb.create_sheet(self.loginText)
-                ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
-                           datetime.now(), 'Д'])
-                wb.save('ДенежныеТранзакции.xlsx')
-                wb.close()
-                con = sqlite3.connect('Databases/UsersInformat')
-                cur = con.cursor()
-                balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
-                count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
-                                    f" = '{self.loginText}'").fetchall()[0][0]
-                count = int(count) + 1
-                balance = int(balance) + int(self.revenueSummaEnter.text())
-                cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
-                cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
-                con.commit()
-                con.close()
-                self.revenueSummaEnter.setText('')
-                self.revenueSourceEnter.setText('')
-                self.revenueCategoryEnter.setText('')
-                self.addRevenueErrorLabel.setText('')
+                    wb = load_workbook('ДенежныеТранзакции.xlsx')
+                    sheetnames = wb.sheetnames
+                    if self.loginText in sheetnames:
+                        ws = wb[self.loginText]
+                    else:
+                        ws = wb.create_sheet(self.loginText)
+                    ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
+                               datetime.now(), 'Д'])
+                    wb.save('ДенежныеТранзакции.xlsx')
+                    wb.close()
+                    con = sqlite3.connect('Databases/UsersInformat')
+                    cur = con.cursor()
+                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                    count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
+                                        f" = '{self.loginText}'").fetchall()[0][0]
+                    count = int(count) + 1
+                    balance = int(balance) + int(self.revenueSummaEnter.text())
+                    cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
+                    cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
+                    con.commit()
+                    con.close()
+                    self.revenueSummaEnter.setText('')
+                    self.revenueSourceEnter.setText('')
+                    self.revenueCategoryEnter.setText('')
+                    self.addRevenueErrorLabel.setText('')
         except Exception:
             self.addRevenueErrorLabel.setText('Ошибка: Сумма должна \nсостоять из цифр')
 
@@ -2952,56 +4239,82 @@ class MainWindow(QMainWindow):
             elif self.sortExpenseParameter.currentText() == 'Источник':
                 data = sorted(data, key=lambda x: (x[1], int(x[0])))[::-1]
             for i, row in enumerate(data):
-                self.expenseTransactions.setRowCount(self.revenueTransactions.rowCount() + 1)
+                self.expenseTransactions.setRowCount(self.expenseTransactions.rowCount() + 1)
                 self.expenseTransactions.setItem(i, 0, QTableWidgetItem(str(row[0])))
                 self.expenseTransactions.setItem(i, 2, QTableWidgetItem(str(row[2])))
                 self.expenseTransactions.setItem(i, 1, QTableWidgetItem(str(row[1])))
                 self.expenseTransactions.setItem(i, 3, QTableWidgetItem(str(row[3])))
+
             wb.close()
 
     def createExpense(self):
         try:
             a = int(self.expenseSummaEnter.text())
-            if (self.expenseSummaEnter.text() == '' or self.expenseSourceEnter.text() == ''
-                    or self.expenseCategoryEnter.text() == ''):
-                self.addExpenseErrorLabel.setText('Ошибка: Заполните все поля')
+            if a < 0:
+                self.addExpenseErrorLabel.setText('Ошибка: Укажите сумму без минуса')
             else:
-                wb = load_workbook('ДенежныеТранзакции.xlsx')
-                sheetnames = wb.sheetnames
-                if self.loginText in sheetnames:
-                    ws = wb[self.loginText]
+                if (self.expenseSummaEnter.text() == '' or self.expenseSourceEnter.text() == ''
+                        or self.expenseCategoryEnter.text() == ''):
+                    self.addExpenseErrorLabel.setText('Ошибка: Заполните все поля')
                 else:
-                    ws = wb.create_sheet(self.loginText)
-                ws.append(
-                    [self.expenseSummaEnter.text(), self.expenseSourceEnter.text(), self.expenseCategoryEnter.text(),
-                     datetime.now(), 'Р'])
-                wb.save('ДенежныеТранзакции.xlsx')
-                wb.close()
-                con = sqlite3.connect('Databases/UsersInformat')
-                cur = con.cursor()
-                balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
-                count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
-                                    f" = '{self.loginText}'").fetchall()[0][0]
-                count = int(count) + 1
-                balance = int(balance) - int(self.expenseSummaEnter.text())
-                cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
-                cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
-                con.commit()
-                con.close()
-                self.expenseSummaEnter.setText('')
-                self.expenseSourceEnter.setText('')
-                self.expenseCategoryEnter.setText('')
-                self.addExpenseErrorLabel.setText('')
+                    wb = load_workbook('ДенежныеТранзакции.xlsx')
+                    sheetnames = wb.sheetnames
+                    if self.loginText in sheetnames:
+                        ws = wb[self.loginText]
+                    else:
+                        ws = wb.create_sheet(self.loginText)
+                    ws.append(
+                        [self.expenseSummaEnter.text(), self.expenseSourceEnter.text(), self.expenseCategoryEnter.text(),
+                         datetime.now(), 'Р'])
+                    wb.save('ДенежныеТранзакции.xlsx')
+                    wb.close()
+                    con = sqlite3.connect('Databases/UsersInformat')
+                    cur = con.cursor()
+                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                    count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
+                                        f" = '{self.loginText}'").fetchall()[0][0]
+                    count = int(count) + 1
+                    balance = int(balance) - int(self.expenseSummaEnter.text())
+                    cur.execute(f"UPDATE inf SET numberoftransactions = {count} WHERE username = '{self.loginText}'")
+                    cur.execute(f"UPDATE inf SET balance = {balance} WHERE username = '{self.loginText}'")
+                    con.commit()
+                    con.close()
+                    self.expenseSummaEnter.setText('')
+                    self.expenseSourceEnter.setText('')
+                    self.expenseCategoryEnter.setText('')
+                    self.addExpenseErrorLabel.setText('')
         except Exception:
             self.addExpenseErrorLabel.setText('Ошибка: Сумма должна \nсостоять из цифр')
+
+    def addGoalFunction(self):
+        try:
+            if self.enterGoalTarget.text() == '' or self.enterGoalName.text() == '':
+                self.addGoalResult.setText('Ошибка: Заполните все поля')
+            else:
+                a = int(self.enterGoalTarget.text())
+                if a < 0:
+                    self.addExpenseErrorLabel.setText('Ошибка: Укажите цель без минуса')
+                else:
+                    con = sqlite3.connect('Goals')
+                    cur = con.cursor()
+                    print(1)
+                    data = cur.execute("SELECT * FROM goalsCondition").fetchall()
+                    print(1)
+                    print(data)
+                    con.commit()
+                    con.close()
+        except Exception:
+            self.addGoalResult.setText('Ошибка: Цель должна \nсостоять из цифр')
     def OpenExpenseManager(self):
         self.hideMenu()
         self.UpdateExpenseTransactions()
         self.expenseManagerMenu.show()
-
     def OpenSettings(self):
         self.app4 = SettingsWindow()
         self.app4.show()
+
+    def closeAddGoalWindow(self):
+        self.addGoal.hide()
 
 class SettingsWindow(QMainWindow):
     def __init__(self):
