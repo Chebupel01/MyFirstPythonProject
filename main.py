@@ -8,11 +8,15 @@ from FilesForImportingImages.res_rc2 import *
 from FilesForImportingImages.res_rc1 import *
 from FilesForImportingImages.res_rc4 import *
 from FilesForImportingImages.res_rc3 import *
+from FilesForImportingImages.res_rc5 import *
 from FilesForImportingImages.res_rc import *
 from OtherFiles import *
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_workbook
 import sqlite3
+from string import Template
+import math
+import currency
 
 NAME = 'picture.png'
 ReLogWindow = """<?xml version="1.0" encoding="UTF-8"?>
@@ -3383,6 +3387,635 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, st
 прогреcc  цели</string>
      </property>
     </widget>
+    <widget class="QWidget" name="editGoalMenu" native="true">
+     <property name="geometry">
+      <rect>
+       <x>329</x>
+       <y>49</y>
+       <width>321</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 10px;
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));</string>
+     </property>
+     <widget class="QLabel" name="editGoalLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Редактировать цель</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalEditNameLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>100</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Название</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalEditTargetLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>180</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Цель</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="selectEditColorLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>265</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Цвет</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="enterEditGoalName">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>145</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="enterEditGoalTarget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>230</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="selectEditColor">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>306</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Синий</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Красный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Жёлтый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Чёрный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Фиолетовый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Зелёный</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Оранжевый</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Розовый</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QPushButton" name="editGoalButton">
+      <property name="geometry">
+       <rect>
+        <x>35</x>
+        <y>355</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>Изменить</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="closeEditGoalWindowButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>10</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(255,33,100,150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="editGoalResult">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>415</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:white;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalEditLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>70</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white</string>
+      </property>
+      <property name="text">
+       <string>Изменяемая цель</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="selectEditGoal">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>70</y>
+        <width>71</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>8</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteGoalButton">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>355</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>Удалить</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="progressGoalMenu" native="true">
+     <property name="geometry">
+      <rect>
+       <x>329</x>
+       <y>49</y>
+       <width>321</width>
+       <height>461</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 10px;
+background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, stop:0 rgba(189, 36, 126, 243), stop:1 rgba(255, 255, 255, 255));</string>
+     </property>
+     <widget class="QPushButton" name="closeProgressGoalWindowButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>10</y>
+        <width>40</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(255,33,100,150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="goalsinformation">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>60</y>
+        <width>321</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="progressGoalResult">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>400</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:white;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="progressGoalButton">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>330</y>
+        <width>211</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,100);
+}</string>
+      </property>
+      <property name="text">
+       <string>Добавить</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalEditProgressLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>190</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white</string>
+      </property>
+      <property name="text">
+       <string>Изменяемая цель</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="goalSummProgressLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>230</y>
+        <width>321</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Black</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Сумма</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="entersSummGoalProgress">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>270</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);
+}
+
+</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="selectEditGoalProgress">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>190</y>
+        <width>71</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0,0,0,0);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 3px;
+padding: 10px;
+font-size: 10pt;
+color: rgba(255, 255, 255, 200);</string>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>8</number>
+      </property>
+     </widget>
+    </widget>
     <zorder>goalPlannerPlace</zorder>
     <zorder>goalPlannerLabel</zorder>
     <zorder>goalProgress1</zorder>
@@ -3414,6 +4047,1657 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, st
     <zorder>goalNumber_8</zorder>
     <zorder>addProgress</zorder>
     <zorder>addGoal</zorder>
+    <zorder>editGoalMenu</zorder>
+    <zorder>progressGoalMenu</zorder>
+   </widget>
+   <widget class="QWidget" name="currencyConvertatorMenu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>961</width>
+      <height>550</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="currencyConvertatorPlace">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>961</width>
+       <height>551</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="picture">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>75</y>
+       <width>321</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-image: url(:/pictures/istockphoto-1436091608-170667a (1).jpg);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currencyConvertatorMenuLabel_2">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>20</y>
+       <width>361</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Конвертатор валют</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="convertibleCurrencyLabel">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>80</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Конвертируемая валюта</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="convertibleCurrency">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>120</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(58, 58, 60);
+border: 2px solid rgba(255, 255, 255, 250);
+color: white;
+border-radius: 5px</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Австралийский доллар (AUD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Азербайджанский манат (AZN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Албанский лек (ALL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Алжирский динар (DZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ангольская кванза (AOA)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Аргентинское песо (ARS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Армянский драм (AMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Арубанский флорин (AWG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Афганский афгани (AFN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Багамский доллар (BSD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бангладешская така (BDT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Барбадосский доллар (BBD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бахрейнский динар (BHD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Белизский доллар (BZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Белорусский рубль (BYN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Болгарский лев (BGN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Боливийский боливиано (BOB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ботсванская пула (BWP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бразильский реал (BRL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Брунейский доллар (BND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бурундийский франк (BIF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Венгерский форинт (HUF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Восточнокарибский доллар (XCD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Вьетнамский донг (VND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гаитянский гурд (HTG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гайанский доллар (GYD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гамбийский даласи (GMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ганский седи (GHS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гватемальский кетсаль (GTQ)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гвинейский франк (GNF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гондурасская лемпира (HNL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гонконгский доллар (HKD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Грузинский лари (GEL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Датская крона (DKK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Дирхам ОАЭ (AED)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Намибии (NAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар США (USD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Соломоновых Островов (SBD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Тринидада и Тобаго (TTD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Фиджи (FJD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доминиканское песо (DOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Евро (EUR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Египетский фунт (EGP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Жэньминьби (CNY)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Западноафриканский франк КФА (XOF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Индийская рупия (INR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Индонезийская рупия (IDR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Иорданский динар (JOD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Иранский риал (IRR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Исландская крона (ISK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Йеменский риал (YER)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Казахстанский тенге (KZT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Камбоджийский риель (KHR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Канадский доллар (CAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Катарский риал (QAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кенийский шиллинг (KES)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кина (PGK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Киргизский сом (KGS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Колумбийское песо (COP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Конвертируемая марка Боснии и Герцеговины (BAM)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Конголезский франк (CDF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Коста-риканский колон (CRC)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кувейтский динар (KWD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Лаосский кип (LAK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Либерийский доллар (LRD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ливанский фунт (LBP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ливийский динар (LYD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Лоти Лесото (LSL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Маврикийская рупия (MUR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мавританская угия (MRU)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Македонский денар (MKD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малавийская квача (MWK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малагасийский ариари (MGA)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малайзийский ринггит (MYR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мальдивская руфия (MVR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Марокканский дирхам (MAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мексиканское песо (MXN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мозамбикский метикал (MZN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Молдавский лей (MDL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мьянманский кьят (MMK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Непальская рупия (NPR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Нигерийская найра (NGN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Нидерландский антильский гульден (ANG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Никарагуанская кордоба (NIO)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новозеландский доллар (NZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новый израильский шекель (ILS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новый тайваньский доллар (TWD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Норвежская крона (NOK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Оманский риал (OMR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Пакистанская рупия (PKR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Панамский бальбоа (PAB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Парагвайский гуарани (PYG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Патака Макао (MOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Перуанский соль (PEN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Российский рубль (RUB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Румынский лей (RON)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сальвадорский колон (SVC)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Саудовский риял (SAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Свазилендский лилангени (SZL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сейшельская рупия (SCR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суверенный боливар (VES)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суданский фунт (SDG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суринамский доллар (SRD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сьерра-леонский леоне (SLL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Таджикский сомони (TJS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тайский бат (THB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Танзанийский шиллинг (TZS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тонганская паанга (TOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тунисский динар (TND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Турецкая лира (TRY)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Туркменский манат (TMT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Угандийский шиллинг (UGX)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Узбекский сум (UZS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Украинская гривна (UAH)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Уругвайское песо (UYU)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Филиппинское песо  (PHP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Джибути (DJF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк КФП (XPF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Комор (KMF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Руанды (RWF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Фунт стерлингов (GBP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Центральноафриканский франк КФА (XAF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Чешская крона (CZK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Чилийское песо (CLP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шведская крона (SEK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Швейцарский франк (CHF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шри-ланкийская рупия (LKR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Эскудо Кабо-Верде (CVE)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Эфиопский быр (ETB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Южноафриканский рэнд (ZAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Южнокорейская вона (KRW)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ямайский доллар (JMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Японская иена (JPY)</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="convertedCurrency">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>120</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(58, 58, 60);
+border: 2px solid rgba(255, 255, 255, 250);
+color: white;
+border-radius: 5px</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Австралийский доллар (AUD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Азербайджанский манат (AZN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Албанский лек (ALL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Алжирский динар (DZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ангольская кванза (AOA)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Аргентинское песо (ARS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Армянский драм (AMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Арубанский флорин (AWG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Афганский афгани (AFN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Багамский доллар (BSD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бангладешская така (BDT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Барбадосский доллар (BBD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бахрейнский динар (BHD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Белизский доллар (BZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Белорусский рубль (BYN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Болгарский лев (BGN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Боливийский боливиано (BOB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ботсванская пула (BWP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бразильский реал (BRL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Брунейский доллар (BND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Бурундийский франк (BIF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Венгерский форинт (HUF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Восточнокарибский доллар (XCD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Вьетнамский донг (VND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гаитянский гурд (HTG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гайанский доллар (GYD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гамбийский даласи (GMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ганский седи (GHS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гватемальский кетсаль (GTQ)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гвинейский франк (GNF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гондурасская лемпира (HNL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Гонконгский доллар (HKD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Грузинский лари (GEL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Датская крона (DKK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Дирхам ОАЭ (AED)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Намибии (NAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар США (USD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Соломоновых Островов (SBD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Тринидада и Тобаго (TTD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доллар Фиджи (FJD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Доминиканское песо (DOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Евро (EUR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Египетский фунт (EGP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Жэньминьби (CNY)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Западноафриканский франк КФА (XOF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Индийская рупия (INR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Индонезийская рупия (IDR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Иорданский динар (JOD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Иранский риал (IRR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Исландская крона (ISK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Йеменский риал (YER)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Казахстанский тенге (KZT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Камбоджийский риель (KHR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Канадский доллар (CAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Катарский риал (QAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кенийский шиллинг (KES)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кина (PGK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Киргизский сом (KGS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Колумбийское песо (COP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Конвертируемая марка Боснии и Герцеговины (BAM)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Конголезский франк (CDF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Коста-риканский колон (CRC)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Кувейтский динар (KWD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Лаосский кип (LAK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Либерийский доллар (LRD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ливанский фунт (LBP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ливийский динар (LYD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Лоти Лесото (LSL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Маврикийская рупия (MUR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мавританская угия (MRU)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Македонский денар (MKD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малавийская квача (MWK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малагасийский ариари (MGA)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Малайзийский ринггит (MYR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мальдивская руфия (MVR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Марокканский дирхам (MAD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мексиканское песо (MXN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мозамбикский метикал (MZN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Молдавский лей (MDL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Мьянманский кьят (MMK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Непальская рупия (NPR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Нигерийская найра (NGN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Нидерландский антильский гульден (ANG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Никарагуанская кордоба (NIO)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новозеландский доллар (NZD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новый израильский шекель (ILS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Новый тайваньский доллар (TWD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Норвежская крона (NOK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Оманский риал (OMR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Пакистанская рупия (PKR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Панамский бальбоа (PAB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Парагвайский гуарани (PYG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Патака Макао (MOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Перуанский соль (PEN)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Российский рубль (RUB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Румынский лей (RON)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сальвадорский колон (SVC)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Саудовский риял (SAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Свазилендский лилангени (SZL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сейшельская рупия (SCR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суверенный боливар (VES)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суданский фунт (SDG)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Суринамский доллар (SRD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Сьерра-леонский леоне (SLL)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Таджикский сомони (TJS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тайский бат (THB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Танзанийский шиллинг (TZS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тонганская паанга (TOP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Тунисский динар (TND)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Турецкая лира (TRY)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Туркменский манат (TMT)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Угандийский шиллинг (UGX)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Узбекский сум (UZS)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Украинская гривна (UAH)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Уругвайское песо (UYU)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Филиппинское песо  (PHP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Джибути (DJF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк КФП (XPF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Комор (KMF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Франк Руанды (RWF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Фунт стерлингов (GBP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Центральноафриканский франк КФА (XAF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Чешская крона (CZK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Чилийское песо (CLP)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шведская крона (SEK)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Швейцарский франк (CHF)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Шри-ланкийская рупия (LKR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Эскудо Кабо-Верде (CVE)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Эфиопский быр (ETB)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Южноафриканский рэнд (ZAR)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Южнокорейская вона (KRW)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ямайский доллар (JMD)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Японская иена (JPY)</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="convertedCurrencyLabel">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>80</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Получаемая валюта</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="convertedAmountLabel">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>170</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Полученная сумма</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="convertibleAmountLabel">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>170</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Black</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
+     </property>
+     <property name="text">
+      <string>Сумма</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="convertibleAmount">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>210</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(58, 58, 60);
+border: 2px solid rgba(255, 255, 255, 250);
+color: white;
+border-radius: 5px</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="convertedAmount">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>210</y>
+       <width>251</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(58, 58, 60);
+border: 2px solid rgba(255, 255, 255, 250);
+color: white;
+border-radius: 5px</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="convertButton">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>330</y>
+       <width>321</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777209</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>20</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgb(58, 58, 60);
+border: 2px solid rgba(255, 255, 255, 250);
+color: white;
+border-radius: 5px
+}
+QPushButton:hover {
+background-color:rgba(58, 58, 60, 200);
+}</string>
+     </property>
+     <property name="text">
+      <string>Конвертировать</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="convertLabelError">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>279</y>
+       <width>321</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>background</zorder>
    <zorder>mainMenuLabel</zorder>
@@ -3432,6 +5716,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0.011, x2:1, y2:0, st
    <zorder>revenueManagerMenu</zorder>
    <zorder>expenseManagerMenu</zorder>
    <zorder>goalPlannerMenu</zorder>
+   <zorder>currencyConvertatorMenu</zorder>
   </widget>
  </widget>
  <resources>
@@ -3876,6 +6161,8 @@ border-radius: 9px;</string>
  <connections/>
 </ui>
 """
+
+
 class RegistrationWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -3984,6 +6271,7 @@ class RegistrationWindow(QMainWindow):
     def closeWindow(self):
         sys.exit(app.exec_())
 
+
 class LoadingWindow(QMainWindow):
     def __init__(self, login):
         self.login = login
@@ -4040,9 +6328,16 @@ class LoadingWindow(QMainWindow):
         self.app2 = MainWindow(self.login)
         self.app2.show()
 
+
 class MainWindow(QMainWindow):
     def __init__(self, login):
         self.loginText = login
+        self.colors = {'Синий': 'blue', 'Красный': 'red', 'Жёлтый': 'yellow', 'Чёрный': 'black', 'Фиолетовый': 'violet',
+                       'Зелёный': 'green', 'Оранжевый': 'orange', 'Розовый': 'pink', 'Голубой': 'yellow'}
+        self.data = [['1', 'Не используется', '', '0', '0', 'blue'], ['2', 'Не используется', '', '0', '0', 'blue'],
+                     ['3', 'Не используется', '', '0', '0', 'blue'], ['4', 'Не используется', '', '0', '0', 'blue'],
+                     ['5', 'Не используется', '', '0', '0', 'blue'], ['6', 'Не используется', '', '0', '0', 'blue'],
+                     ['7', 'Не используется', '', '0', '0', 'blue'], ['8', 'Не используется', '', '0', '0', 'blue']]
         super().__init__()
         f = io.StringIO(MainWindowTemplate)
         uic.loadUi(f, self)
@@ -4053,25 +6348,35 @@ class MainWindow(QMainWindow):
         self.sortRevenueParameter.addItem('Источник')
         self.MainMenu.show()
         self.addRevenueErrorLabel.setText('')
+        self.addExpenseErrorLabel.setText('')
         self.mainMenu.clicked.connect(self.OpenMainMenu)
         self.revenueManager.clicked.connect(self.OpenRevenueManager)
         self.expenseManager.clicked.connect(self.OpenExpenseManager)
         self.goalPlanner.clicked.connect(self.OpenGoalPlannerMenu)
         self.settings.clicked.connect(self.OpenSettings)
         self.createGoal.clicked.connect(self.OpenAddGoal)
+        self.currencyConverter.clicked.connect(self.OpenCurrencyConverter)
         self.addRevenue.clicked.connect(self.createRevenue)
         self.addExpense.clicked.connect(self.createExpense)
         self.updateRevenueButton.clicked.connect(self.UpdateRevenueTransactions)
         self.updateExpenseButton.clicked.connect(self.UpdateExpenseTransactions)
         self.closeAddGoalWindowButton.clicked.connect(self.closeAddGoalWindow)
+        self.closeEditGoalWindowButton.clicked.connect(self.closeEditGoalWindow)
         self.addGoalButton.clicked.connect(self.addGoalFunction)
-        self.colors = {'Синий': 'blue', 'Красный': 'red', 'Жёлтый': 'yellow', 'Чёрный': 'black', 'Фиолетовый': 'violet',
-                       'Зелёный': 'green', 'Оранжевый': 'orange', 'Розовый': 'pink', 'Голубой': 'yellow'}
+        self.editGoalButton.clicked.connect(self.editGoalFunction)
+        self.editGoal.clicked.connect(self.OpenEditGoal)
+        self.updateGoals.clicked.connect(self.UpdateGoalsFunction)
+        self.deleteGoalButton.clicked.connect(self.DeleteGoalFunction)
+        self.closeProgressGoalWindowButton.clicked.connect(self.closeProgressGoalWindow)
+        self.addProgress.clicked.connect(self.OpenGoalProgress)
+        self.progressGoalButton.clicked.connect(self.addProgressFunction)
+        self.convertButton.clicked.connect(self.convert)
 
     def hideMenu(self):
         self.expenseManagerMenu.hide()
         self.revenueManagerMenu.hide()
         self.goalPlannerMenu.hide()
+        self.currencyConvertatorMenu.hide()
         self.MainMenu.hide()
 
     def BackgroundUpdate(self, fileName):
@@ -4102,7 +6407,7 @@ class MainWindow(QMainWindow):
         wb = load_workbook('ДенежныеТранзакции.xlsx')
         sheetnames = wb.sheetnames
         self.recentTransactions.setColumnCount(5)
-        self.recentTransactions.setHorizontalHeaderLabels(['Доходы\nРасходы','Сумма', 'Источник', 'Категория', 'Дата'])
+        self.recentTransactions.setHorizontalHeaderLabels(['Доходы\nРасходы', 'Сумма', 'Источник', 'Категория', 'Дата'])
         if self.loginText in sheetnames:
             ws = wb[self.loginText]
             indexation = 1
@@ -4120,10 +6425,12 @@ class MainWindow(QMainWindow):
                 self.recentTransactions.setItem(i, 4, QTableWidgetItem(str(row[4])))
             wb.close()
 
+
     def OpenMainMenu(self):
         self.hideMenu()
         self.UpdateInformation()
         self.MainMenu.show()
+
     def OpenRevenueManager(self):
         self.hideMenu()
         self.UpdateRevenueTransactions()
@@ -4134,10 +6441,42 @@ class MainWindow(QMainWindow):
         self.OpenGoalPlannerMenu()
         self.addGoal.show()
 
-    def OpenGoalPlannerMenu(self):
+    def OpenEditGoal(self):
         self.hideMenu()
+        self.OpenGoalPlannerMenu()
+        self.editGoalMenu.show()
+
+    def OpenCurrencyConverter(self):
+        self.hideMenu()
+        self.currencyConvertatorMenu.show()
+
+    def OpenGoalPlannerMenu(self):
+        try:
+            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+                goals = file.readlines()
+        except:
+            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                for goal in self.data:
+                    file.writelines(';'.join(goal) + '\n')
+        self.hideMenu()
+        self.UpdateGoalsFunction()
         self.addGoal.hide()
+        self.editGoalMenu.hide()
+        self.progressGoalMenu.hide()
         self.goalPlannerMenu.show()
+
+    def OpenGoalProgress(self):
+        self.goalsinformation.setColumnCount(3)
+        self.goalsinformation.setHorizontalHeaderLabels(['Номер', 'Цель', 'Прогресс'])
+        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            goals = file.readlines()
+            goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+        for i, row in enumerate(goals):
+            self.goalsinformation.setRowCount(self.goalsinformation.rowCount() + 1)
+            self.goalsinformation.setItem(i, 0, QTableWidgetItem(str(row[0])))
+            self.goalsinformation.setItem(i, 1, QTableWidgetItem(str(row[3])))
+            self.goalsinformation.setItem(i, 2, QTableWidgetItem(str(row[4])))
+        self.progressGoalMenu.show()
 
     def createRevenue(self):
         try:
@@ -4155,13 +6494,15 @@ class MainWindow(QMainWindow):
                         ws = wb[self.loginText]
                     else:
                         ws = wb.create_sheet(self.loginText)
-                    ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(), self.revenueCategoryEnter.text(),
+                    ws.append([self.revenueSummaEnter.text(), self.revenueSourceEnter.text(),
+                               self.revenueCategoryEnter.text(),
                                datetime.now(), 'Д'])
                     wb.save('ДенежныеТранзакции.xlsx')
                     wb.close()
                     con = sqlite3.connect('Databases/UsersInformat')
                     cur = con.cursor()
-                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][
+                        0]
                     count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
                                         f" = '{self.loginText}'").fetchall()[0][0]
                     count = int(count) + 1
@@ -4177,7 +6518,6 @@ class MainWindow(QMainWindow):
         except Exception:
             self.addRevenueErrorLabel.setText('Ошибка: Сумма должна \nсостоять из цифр')
 
-
     def UpdateRevenueTransactions(self):
         self.revenueTransactions.clear()
         self.revenueTransactions.setRowCount(0)
@@ -4190,7 +6530,7 @@ class MainWindow(QMainWindow):
             while ws[f'E{indexation}'].value is not None:
                 if ws[f'E{indexation}'].value == 'Д':
                     data.append([ws[f'A{indexation}'].value, ws[f'B{indexation}'].value, ws[f'C{indexation}'].value,
-                                ws[f'D{indexation}'].value])
+                                 ws[f'D{indexation}'].value])
                 indexation += 1
             self.revenueTransactions.setColumnCount(4)
             self.revenueTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
@@ -4224,7 +6564,7 @@ class MainWindow(QMainWindow):
             while ws[f'E{indexation}'].value is not None:
                 if ws[f'E{indexation}'].value == 'Р':
                     data.append([ws[f'A{indexation}'].value, ws[f'B{indexation}'].value, ws[f'C{indexation}'].value,
-                                ws[f'D{indexation}'].value])
+                                 ws[f'D{indexation}'].value])
                 indexation += 1
             self.expenseTransactions.setColumnCount(4)
             self.expenseTransactions.setHorizontalHeaderLabels(['Сумма', 'Источник', 'Категория', 'Дата'])
@@ -4264,13 +6604,15 @@ class MainWindow(QMainWindow):
                     else:
                         ws = wb.create_sheet(self.loginText)
                     ws.append(
-                        [self.expenseSummaEnter.text(), self.expenseSourceEnter.text(), self.expenseCategoryEnter.text(),
+                        [self.expenseSummaEnter.text(), self.expenseSourceEnter.text(),
+                         self.expenseCategoryEnter.text(),
                          datetime.now(), 'Р'])
                     wb.save('ДенежныеТранзакции.xlsx')
                     wb.close()
                     con = sqlite3.connect('Databases/UsersInformat')
                     cur = con.cursor()
-                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][0]
+                    balance = cur.execute(f"SELECT balance FROM inf WHERE username = '{self.loginText}'").fetchall()[0][
+                        0]
                     count = cur.execute(f"SELECT numberoftransactions FROM inf WHERE username"
                                         f" = '{self.loginText}'").fetchall()[0][0]
                     count = int(count) + 1
@@ -4293,28 +6635,256 @@ class MainWindow(QMainWindow):
             else:
                 a = int(self.enterGoalTarget.text())
                 if a < 0:
-                    self.addExpenseErrorLabel.setText('Ошибка: Укажите цель без минуса')
+                    self.addGoalResult.setText('Ошибка: Укажите цель без минуса')
                 else:
-                    con = sqlite3.connect('Goals')
-                    cur = con.cursor()
-                    print(1)
-                    data = cur.execute("SELECT * FROM goalsCondition").fetchall()
-                    print(1)
-                    print(data)
-                    con.commit()
-                    con.close()
+                    with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+                        goals = file.readlines()
+                        goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+                        count = 0
+                        flag = 0
+                        changed_goals = []
+                        for goal in goals:
+                            if goal[1] == 'Не используется':
+                                if flag == 0:
+                                    goal[1] = 'Используется'
+                                    goal[2] = self.enterGoalName.text()
+                                    goal[3] = self.enterGoalTarget.text()
+                                    goal[5] = self.selectColor.currentText()
+                                    flag = 1
+                            else:
+                                count += 1
+                            changed_goals.append(goal)
+                        if count == 8:
+                            self.addExpenseErrorLabel.setText('Ошибка: Все цели заняты')
+                        else:
+                            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                                for goal in changed_goals:
+                                    file.writelines(';'.join(goal) + '\n')
+                        self.addGoalResult.setText('')
+                        self.enterGoalTarget.setText('')
+                        self.enterGoalName.setText('')
+                        self.selectColor.setCurrentIndex(0)
+                        self.addGoal.hide()
         except Exception:
             self.addGoalResult.setText('Ошибка: Цель должна \nсостоять из цифр')
+
+    def addProgressFunction(self):
+        try:
+            if self.entersSummGoalProgress.text() != '':
+                a = int(self.entersSummGoalProgress.text())
+                if a < 0:
+                    self.progressGoalResult.setText('Ошибка: Укажите цель без минуса')
+                    return
+            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+                goals = file.readlines()
+                goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+            if goals[self.selectEditGoalProgress.value() - 1][1] == 'Не используется':
+                self.progressGoalResult.setText('Ошибка: Данная цель \nне используется')
+                return
+            else:
+                if int(goals[self.selectEditGoalProgress.value() - 1][4]) + \
+                    int(self.entersSummGoalProgress.text()) > int(goals[self.selectEditGoalProgress.value() - 1][3]):
+                    self.progressGoalResult.setText('Ошибка: Слишком большая \nсумма для цели')
+                    return
+                goals[self.selectEditGoalProgress.value() - 1][4] \
+                 = str(int(goals[self.selectEditGoalProgress.value() - 1][4]) + int(self.entersSummGoalProgress.text()))
+                print(goals)
+                with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                    for goal in goals:
+                        file.writelines(';'.join(goal) + '\n')
+            self.progressGoalResult.setText('')
+            self.entersSummGoalProgress.setText('')
+            self.selectEditGoalProgress.setValue(1)
+            self.progressGoalMenu.hide()
+        except Exception:
+            self.progressGoalResult.setText('Ошибка: Цель должна \nсостоять из цифр')
+
+    def editGoalFunction(self):
+        try:
+            if self.enterEditGoalTarget.text() != '':
+                a = int(self.enterEditGoalTarget.text())
+                if a < 0:
+                    self.editGoalResult.setText('Ошибка: Укажите цель без минуса')
+                    return
+            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+                goals = file.readlines()
+                goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+            if goals[self.selectEditGoal.value() - 1][1] == 'Не используется':
+                self.editGoalResult.setText('Ошибка: Данная цель не используется')
+                return
+            else:
+                if self.enterEditGoalName.text() != '' and self.enterEditGoalTarget.text() != '':
+                    goals[self.selectEditGoal.value() - 1][2] = self.enterEditGoalName.text()
+                    goals[self.selectEditGoal.value() - 1][3] = self.enterEditGoalTarget.text()
+                    goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
+                elif self.enterEditGoalName.text() != '':
+                    goals[self.selectEditGoal.value() - 1][2] = self.enterEditGoalName.text()
+                    goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
+                elif self.enterEditGoalTarget.text() != '':
+                    goals[self.selectEditGoal.value() - 1][3] = self.enterEditGoalTarget.text()
+                    goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
+                else:
+                    goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
+            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                for goal in goals:
+                    file.writelines(';'.join(goal) + '\n')
+            self.editGoalResult.setText('')
+            self.enterEditGoalTarget.setText('')
+            self.enterEditGoalName.setText('')
+            self.selectEditGoal.setValue(1)
+            self.selectEditColor.setCurrentIndex(0)
+            self.editGoalMenu.hide()
+        except Exception:
+            self.editGoalResult.setText('Ошибка: Цель должна \nсостоять из цифр')
+
+    def UpdateGoalsFunction(self):
+        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            goals = file.readlines()
+            goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+        for goal in goals:
+            if goal[1] == 'Используется':
+                color = self.colors[goal[5]]
+                styleSheet = Template("""QProgressBar{
+                                    background-color: rgb(124, 113, 116);
+                                    border-radius: 12px;
+                                    color: white;
+                                    text-align: center;
+                                    border: 2px solid rgba(255, 255, 255, 250);
+                                    }
+                                    QProgressBar::chunk{
+                                    border-radius: 12px;
+                                    background-color: $color
+                                    }""")
+                if goal[0] == '1':
+                    self.goalProgress1.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel1.setText(goal[2])
+                    self.goalProgress1.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '2':
+                    self.goalProgress2.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel2.setText(goal[2])
+                    self.goalProgress2.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '3':
+                    self.goalProgress3.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel3.setText(goal[2])
+                    self.goalProgress3.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '4':
+                    self.goalProgress4.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel4.setText(goal[2])
+                    self.goalProgress4.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '5':
+                    self.goalProgress5.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel5.setText(goal[2])
+                    self.goalProgress5.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '6':
+                    self.goalProgress6.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel6.setText(goal[2])
+                    self.goalProgress6.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '7':
+                    self.goalProgress7.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel7.setText(goal[2])
+                    self.goalProgress7.setStyleSheet(styleSheet.substitute(color=color))
+                if goal[0] == '8':
+                    self.goalProgress8.setValue(math.floor(round((int(goal[4])) / int(goal[3]), 2) * 100))
+                    self.goalProgressLabel8.setText(goal[2])
+                    self.goalProgress8.setStyleSheet(styleSheet.substitute(color=color))
+            else:
+                if goal[0] == '1':
+                    self.goalProgress1.setValue(0)
+                    self.goalProgressLabel1.setText('Не используется')
+                if goal[0] == '2':
+                    self.goalProgress2.setValue(0)
+                    self.goalProgressLabel2.setText('Не используется')
+                if goal[0] == '3':
+                    self.goalProgress3.setValue(0)
+                    self.goalProgressLabel3.setText('Не используется')
+                if goal[0] == '4':
+                    self.goalProgress4.setValue(0)
+                    self.goalProgressLabel4.setText('Не используется')
+                if goal[0] == '5':
+                    self.goalProgress5.setValue(0)
+                    self.goalProgressLabel5.setText('Не используется')
+                if goal[0] == '6':
+                    self.goalProgress6.setValue(0)
+                    self.goalProgressLabel6.setText('Не используется')
+                if goal[0] == '7':
+                    self.goalProgress7.setValue(0)
+                    self.goalProgressLabel7.setText('Не используется')
+                if goal[0] == '8':
+                    self.goalProgress8.setValue(0)
+                    self.goalProgressLabel8.setText('Не используется')
+
+    def DeleteGoalFunction(self):
+        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            goals = file.readlines()
+            goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
+        if goals[self.selectEditGoal.value() - 1][1] == 'Не используется':
+            self.editGoalResult.setText('Ошибка: Данная цель не используется')
+            return
+        else:
+            goals[self.selectEditGoal.value() - 1][1] = 'Не используется'
+            goals[self.selectEditGoal.value() - 1][2] = ''
+            goals[self.selectEditGoal.value() - 1][3] = '0'
+            goals[self.selectEditGoal.value() - 1][4] = '0'
+            goals[self.selectEditGoal.value() - 1][5] = 'blue'
+        with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+            for goal in goals:
+                file.writelines(';'.join(goal) + '\n')
+        self.editGoalResult.setText('')
+        self.enterEditGoalTarget.setText('')
+        self.enterEditGoalName.setText('')
+        self.selectEditGoal.setValue(1)
+        self.selectEditColor.setCurrentIndex(0)
+        self.editGoalMenu.hide()
+
+    def convert(self):
+        first_currency = self.convertibleCurrency.currentText()
+        first_currency = first_currency.replace('(', '')
+        first_currency = first_currency.replace(')', '')
+        first_currency = first_currency.split()[-1]
+        second_currency = self.convertedCurrency.currentText()
+        second_currency = second_currency.replace('(', '')
+        second_currency = second_currency.replace(')', '')
+        second_currency = second_currency.split()[-1]
+        amount = self.convertibleAmount.text()
+        if self.convertibleAmount.text() == '':
+            self.convertLabelError.setText('Ошибка: Введите сумму конвертации')
+            return
+        if first_currency == second_currency:
+            self.convertedAmount.setText(amount)
+            return
+        try:
+            amount = int(self.convertibleAmount.text())
+            try:
+                result = currency.convert(first_currency, second_currency, amount)
+                self.convertedAmount.setText(str(result))
+            except Exception:
+                fromFirstCurrencyToRubles = currency.convert(first_currency, 'RUB', 1)
+                fromSecondCurrencyToRubles = currency.convert(second_currency, 'RUB', 1)
+                self.convertedAmount.setText(str(round(float(fromFirstCurrencyToRubles) / float(fromSecondCurrencyToRubles)
+                                             * amount, 2)))
+        except Exception:
+            self.convertLabelError.setText('Ошибка: Сумма должна состоять из цифр')
+            return
+        self.convertLabelError.setText('')
+
     def OpenExpenseManager(self):
         self.hideMenu()
         self.UpdateExpenseTransactions()
         self.expenseManagerMenu.show()
+
     def OpenSettings(self):
         self.app4 = SettingsWindow()
         self.app4.show()
 
     def closeAddGoalWindow(self):
         self.addGoal.hide()
+
+    def closeEditGoalWindow(self):
+        self.editGoalMenu.hide()
+
+    def closeProgressGoalWindow(self):
+        self.progressGoalMenu.hide()
+
 
 class SettingsWindow(QMainWindow):
     def __init__(self):
@@ -4351,6 +6921,7 @@ class SettingsWindow(QMainWindow):
     def closeSettings(self):
         self.hide()
 
+
 class ErrorDisableAutomaticLoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -4370,6 +6941,7 @@ class ErrorDisableAutomaticLoginWindow(QMainWindow):
 
     def closeError(self):
         self.hide()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
