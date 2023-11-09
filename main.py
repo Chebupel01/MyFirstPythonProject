@@ -2,14 +2,11 @@ import sys
 import io
 import time
 from datetime import datetime
-from PyQt5 import uic  # Импортируем uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
-from FilesForImportingImages.res_rc2 import *
-from FilesForImportingImages.res_rc1 import *
-from FilesForImportingImages.res_rc4 import *
-from FilesForImportingImages.res_rc3 import *
-from FilesForImportingImages.res_rc5 import *
-from FilesForImportingImages.res_rc import *
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QFileDialog
+from PyQt5.QtGui import QPixmap, QTransform, QColor, QImage
+from PyQt5.QtCore import QSize
+from Resources_rc import *
 from OtherFiles import *
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_workbook
@@ -18,7 +15,7 @@ from string import Template
 import math
 import currency
 
-NAME = 'picture.png'
+
 ReLogWindow = """<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
@@ -27,8 +24,8 @@ ReLogWindow = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>633</width>
-    <height>600</height>
+    <width>1274</width>
+    <height>738</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -50,8 +47,8 @@ ReLogWindow = """<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>40</y>
+     <x>450</x>
+     <y>150</y>
      <width>500</width>
      <height>500</height>
     </rect>
@@ -90,7 +87,7 @@ ReLogWindow = """<?xml version="1.0" encoding="UTF-8"?>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/F8fDYJzboAAbCup.png.png.png);
+     <string notr="true">border-image:url(:/Images/ReLogBackground.jpg);
 border-radius: 20px;</string>
     </property>
     <property name="text">
@@ -402,6 +399,7 @@ background-color: rgba(255,33,100,100);
  </widget>
  <resources>
   <include location="res.qrc"/>
+  <include location="Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -415,8 +413,8 @@ LoadWindow = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>502</width>
-    <height>383</height>
+    <width>1003</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="font">
@@ -436,8 +434,8 @@ LoadWindow = """<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>60</y>
+     <x>530</x>
+     <y>280</y>
      <width>401</width>
      <height>281</height>
     </rect>
@@ -492,7 +490,7 @@ border-radius: 12px;
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/IMG_20231008_160145_933.jpg);
+     <string notr="true">border-image:url(:/Images/LoadingBackground.jpg);
 border-radius: 20px;</string>
     </property>
    </widget>
@@ -611,6 +609,7 @@ border-radius: 10px;</string>
  </widget>
  <resources>
   <include location="res.qrc"/>
+  <include location="Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -623,20 +622,20 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1093</width>
-    <height>800</height>
+    <width>1030</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1008</width>
-    <height>800</height>
+    <width>1030</width>
+    <height>741</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1200</width>
-    <height>800</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="font">
@@ -656,16 +655,16 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>10</y>
+     <x>0</x>
+     <y>0</y>
      <width>1031</width>
-     <height>741</height>
+     <height>739</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
      <width>1031</width>
-     <height>741</height>
+     <height>0</height>
     </size>
    </property>
    <widget class="QLabel" name="background">
@@ -678,7 +677,7 @@ MainWindowTemplate = """<?xml version="1.0" encoding="UTF-8"?>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/images.jpg);
+     <string notr="true">border-image:url(:/Images/BackgroudMainWindow.jpg);
 border-radius: 20px;</string>
     </property>
     <property name="text">
@@ -718,7 +717,7 @@ background-color: rgba(255,33,100,100);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/Без названия (2).png);
+     <string notr="true">border-image:url(:/Images/Без названия (2).png);
 border-radius: 37px;</string>
     </property>
     <property name="text">
@@ -989,7 +988,7 @@ background-color: rgba(255,33,100,100);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/Иконка приложения.png);
+     <string notr="true">border-image:url(:/Images/Иконка приложения.png);
 border-radius: 45px;</string>
     </property>
     <property name="text">
@@ -1032,7 +1031,7 @@ border-radius: 10px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/pictures/Рамка для аватарки.png)</string>
+      <string notr="true">border-image: url(:/Images/Рамка для аватарки.png)</string>
      </property>
      <property name="text">
       <string/>
@@ -1048,7 +1047,7 @@ border-radius: 10px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image:url(:/pictures/images.jpg)</string>
+      <string notr="true">border-image:url(:/Images/Иконка.png)</string>
      </property>
      <property name="text">
       <string/>
@@ -1081,7 +1080,7 @@ border: 5px solid rgba(255, 255, 255, 250);</string>
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="editProfile">
+    <widget class="QPushButton" name="editAvatar">
      <property name="geometry">
       <rect>
        <x>45</x>
@@ -1112,7 +1111,7 @@ background-color: rgbargba(44, 109, 168, 150);
      </property>
      <property name="text">
       <string>Изменить
-профиль</string>
+аватарку</string>
      </property>
     </widget>
     <widget class="QLabel" name="balance">
@@ -1642,38 +1641,6 @@ background-color:rgba(34, 139, 34, 100);
       <string>Добавить</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="createRevenueFileGraphicDiagramButton">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>470</y>
-       <width>451</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-color: white;
-background-color:rgba(34, 139, 34, 210);
-border: 3px solid rgba(255, 255, 255, 250);
-}
-
-QPushButton:hover {
-background-color:rgba(34, 139, 34, 100);
-}</string>
-     </property>
-     <property name="text">
-      <string>Создать файл/график/диаграмму</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="addRevenueErrorLabel">
      <property name="geometry">
       <rect>
@@ -2108,38 +2075,6 @@ background-color:rgba(178, 34, 34, 100);
      </property>
      <property name="text">
       <string>Добавить</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="createExpenseFileGraphicDiagramButton">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>470</y>
-       <width>451</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-color: white;
-background-color:rgba(178, 34, 34, 210);
-border: 3px solid rgba(255, 255, 255, 250);
-}
-
-QPushButton:hover {
-background-color:rgba(178, 34, 34, 100);
-}</string>
-     </property>
-     <property name="text">
-      <string>Создать файл/график/диаграмму</string>
      </property>
     </widget>
     <widget class="QLabel" name="addExpenseErrorLabel">
@@ -4086,7 +4021,7 @@ border-radius: 10px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/pictures/istockphoto-1436091608-170667a (1).jpg);</string>
+      <string notr="true">border-image: url(:/Images/istockphoto-1436091608-170667a (1).jpg)</string>
      </property>
      <property name="text">
       <string/>
@@ -5721,6 +5656,7 @@ background-color:rgba(58, 58, 60, 200);
  </widget>
  <resources>
   <include location="res.qrc"/>
+  <include location="../Users/miron/PycharmProjects/pythonProject/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -5733,285 +5669,245 @@ settingsTemplate = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>603</height>
+    <width>551</width>
+    <height>321</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>551</width>
+    <height>321</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>3232323</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>90</y>
-     <width>481</width>
-     <height>391</height>
+     <x>10</x>
+     <y>10</y>
+     <width>531</width>
+     <height>301</height>
     </rect>
    </property>
-   <widget class="QLabel" name="background">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>461</width>
-      <height>371</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-image:url(:/pictures/Картинка для настроек.jpg);
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="closeSettings">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="toolTipDuration">
+       <number>1</number>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0, 0, 0, 150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,150);
+}</string>
+      </property>
+      <property name="text">
+       <string>Закрыть настройки</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="settingText">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;
+color: white;</string>
+      </property>
+      <property name="text">
+       <string>Настройки</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="disableAutomaticLoginLabel">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;
+color: white;</string>
+        </property>
+        <property name="text">
+         <string>Отключить автоматический вход</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="disableAutomaticLoginButton">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(0, 0, 0, 150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,150);
+}</string>
+        </property>
+        <property name="text">
+         <string>Отключить</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="exitProgram">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(0, 0, 0, 150);
+border-radius: 10px;
+color: white;</string>
+      </property>
+      <property name="text">
+       <string>Выйти из программы</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="exitButton">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="toolTipDuration">
+       <number>1</number>
+      </property>
+      <property name="statusTip">
+       <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(0, 0, 0, 150);
+border: 2px solid rgba(255, 33, 100, 230);
+border-radius: 10px;
+
+color: rgba(255, 255, 255, 200);
+}
+
+QPushButton:hover {
+background-color: rgba(255,33,100,150);
+}</string>
+      </property>
+      <property name="text">
+       <string>Выход</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="background">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>8</y>
+     <width>531</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image:url(:/Images/SettingsBackground.jpg);
 border-radius: 20px;
 </string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="border">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>481</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(44, 109, 168);
-border-radius: 20px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="settingText">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>30</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>16</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0, 0, 0, 150);
-border-radius: 10px;
-color: white;</string>
-    </property>
-    <property name="text">
-     <string>Настройки</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="placeForText">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>421</width>
-      <height>261</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>16</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0, 0, 0, 150);
-border-radius: 10px;
-color: white;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="disableAutomaticLoginLabel">
-    <property name="geometry">
-     <rect>
-      <x>56</x>
-      <y>112</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;</string>
-    </property>
-    <property name="text">
-     <string>Отключить автоматический вход</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="disableAutomaticLoginButton">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>108</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-background-color: rgba(0,0,0,0);
-border: 2px solid rgba(255, 33, 100, 230);
-border-radius: 10px;
-
-color: rgba(255, 255, 255, 200);
-}
-
-QPushButton:hover {
-background-color: rgba(255,33,100,100);
-}</string>
-    </property>
-    <property name="text">
-     <string>Отключить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="exitButton">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>300</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string/>
-    </property>
-    <property name="toolTipDuration">
-     <number>1</number>
-    </property>
-    <property name="statusTip">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-background-color: rgba(0,0,0,0);
-border: 2px solid rgba(255, 33, 100, 230);
-border-radius: 10px;
-
-color: rgba(255, 255, 255, 200);
-}
-
-QPushButton:hover {
-background-color: rgba(255,33,100,150);
-}</string>
-    </property>
-    <property name="text">
-     <string>Выход</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="disableAutomaticLoginLabel_2">
-    <property name="geometry">
-     <rect>
-      <x>56</x>
-      <y>300</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;</string>
-    </property>
-    <property name="text">
-     <string>Выйти из программы</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="closeSettingsButton">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>20</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string/>
-    </property>
-    <property name="toolTipDuration">
-     <number>1</number>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-background-color: rgba(255,33,100,150);
-border: 2px solid rgba(255, 33, 100, 230);
-border-radius: 10px;
-padding: 10px;
-font-size: 10pt;
-color: rgba(255, 255, 255, 200);
-}
-
-QPushButton:hover {
-background-color: rgba(255,33,100,100);
-}</string>
-    </property>
-    <property name="text">
-     <string>X</string>
-    </property>
-   </widget>
-   <zorder>border</zorder>
-   <zorder>background</zorder>
-   <zorder>settingText</zorder>
-   <zorder>placeForText</zorder>
-   <zorder>disableAutomaticLoginLabel</zorder>
-   <zorder>disableAutomaticLoginButton</zorder>
-   <zorder>exitButton</zorder>
-   <zorder>disableAutomaticLoginLabel_2</zorder>
-   <zorder>closeSettingsButton</zorder>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
+  <widget class="QLabel" name="border">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>551</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(44, 109, 168);
+border-radius: 20px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>border</zorder>
+  <zorder>background</zorder>
+  <zorder>verticalLayoutWidget</zorder>
  </widget>
  <resources>
   <include location="res.qrc"/>
+  <include location="../Users/miron/PycharmProjects/pythonProject/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -6024,8 +5920,8 @@ errorDisableAutomaticLoginTemplate = """<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>417</height>
+    <width>1214</width>
+    <height>803</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -6034,15 +5930,14 @@ errorDisableAutomaticLoginTemplate = """<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QLabel" name="border">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>120</y>
+     <x>520</x>
+     <y>330</y>
      <width>321</width>
      <height>180</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:rgb(44, 109, 168);
-border-radius: 20px;</string>
+    <string notr="true">background-color:rgb(44, 109, 168);</string>
    </property>
    <property name="text">
     <string/>
@@ -6051,8 +5946,8 @@ border-radius: 20px;</string>
   <widget class="QLabel" name="placeForText">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>130</y>
+     <x>530</x>
+     <y>340</y>
      <width>301</width>
      <height>161</height>
     </rect>
@@ -6067,7 +5962,7 @@ border-radius: 20px;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgba(0, 0, 0, 150);
-border-radius: 35px;
+
 color: white;</string>
    </property>
    <property name="text">
@@ -6077,8 +5972,8 @@ color: white;</string>
   <widget class="QPushButton" name="exitFromError">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>230</y>
+     <x>640</x>
+     <y>440</y>
      <width>71</width>
      <height>41</height>
     </rect>
@@ -6111,8 +6006,8 @@ background-color: rgba(255,33,100,150);
   <widget class="QLabel" name="errorText">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>150</y>
+     <x>560</x>
+     <y>360</y>
      <width>261</width>
      <height>51</height>
     </rect>
@@ -6135,15 +6030,14 @@ background-color: rgba(255,33,100,150);
   <widget class="QLabel" name="background">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>130</y>
+     <x>530</x>
+     <y>340</y>
      <width>301</width>
      <height>161</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image:url(:/pictures/ErrorBackground.jpg);
-border-radius: 9px;</string>
+    <string notr="true">border-image:url(:/Images/ErrorBackground.jpg);</string>
    </property>
    <property name="text">
     <string/>
@@ -6157,6 +6051,7 @@ border-radius: 9px;</string>
  </widget>
  <resources>
   <include location="res.qrc"/>
+  <include location="Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
@@ -6168,7 +6063,7 @@ class RegistrationWindow(QMainWindow):
         super().__init__()
         f = io.StringIO(ReLogWindow)
         uic.loadUi(f, self)
-        self.BackgroundUpdate(NAME)
+        self.BackgroundUpdate()
         self.WindowTransparency()
         con = sqlite3.connect('Databases/RecordedLoginAndPassword')
         cur = con.cursor()
@@ -6182,9 +6077,9 @@ class RegistrationWindow(QMainWindow):
         self.regButton.clicked.connect(self.reg)
         self.closeWindowButton.clicked.connect(self.closeWindow)
 
-    def BackgroundUpdate(self, fileName):
-        self.label.setStyleSheet("""border-image: url(:/picture/F8fDYJzboAAbCup.png);
-        border-radius: 35px""")
+    def BackgroundUpdate(self):
+        self.label.setStyleSheet("""border-image:url(:/Images/ReLogBackground.jpg);
+         border-radius: 20px;""")
 
     def WindowTransparency(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
@@ -6285,7 +6180,7 @@ class LoadingWindow(QMainWindow):
     def initUi(self):
         f = io.StringIO(LoadWindow)
         uic.loadUi(f, self)
-        self.BackgroundUpdate(NAME)
+        self.BackgroundUpdate()
         self.WindowTransparency()
         self.timer = QtCore.QTimer()
         with open('OtherFiles/LoadCheckbox.txt', mode='r', encoding='UTF-8') as file:
@@ -6305,9 +6200,9 @@ class LoadingWindow(QMainWindow):
         if self.checkBox.isChecked():
             self.GoEnd()
 
-    def BackgroundUpdate(self, fileName):
-        self.label.setStyleSheet("""border-image: url(:/pictures/IMG_20231008_160145_933.jpg);
-                border-radius: 35px""")
+    def BackgroundUpdate(self):
+        self.label.setStyleSheet("""border-image:url(:/Images/LoadingBackground.jpg);
+         border-radius: 20px;""")
 
     def WindowTransparency(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
@@ -6341,7 +6236,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         f = io.StringIO(MainWindowTemplate)
         uic.loadUi(f, self)
-        self.BackgroundUpdate(NAME)
+        self.BackgroundUpdate()
         self.WindowTransparency()
         self.UpdateInformation()
         self.hideMenu()
@@ -6349,6 +6244,23 @@ class MainWindow(QMainWindow):
         self.MainMenu.show()
         self.addRevenueErrorLabel.setText('')
         self.addExpenseErrorLabel.setText('')
+        con = sqlite3.connect('Databases/UsersInformat')
+        cur = con.cursor()
+        data = cur.execute(f"SELECT numberofauthorizations FROM inf WHERE username "
+                           f"= '{self.loginText}'").fetchall()[0][0]
+        con.close()
+        if data == 1:
+            self.curr_image = QImage('Avatars/Иконка.png').scaled(122, 122)
+            self.pixmapcopy = self.curr_image.copy()
+            self.pixmap = QPixmap.fromImage(self.curr_image)
+            self.pixmap.save(f"Avatars/{self.loginText}.png", "png");
+            self.avatar.setPixmap(self.pixmap)
+        else:
+            self.curr_image = QImage(f"Avatars/{self.loginText}.png")
+            self.pixmapcopy = self.curr_image.copy()
+            self.pixmap = QPixmap.fromImage(self.curr_image)
+            self.pixmap.save(f"Avatars/{self.loginText}.png", "png");
+            self.avatar.setPixmap(self.pixmap)
         self.mainMenu.clicked.connect(self.OpenMainMenu)
         self.revenueManager.clicked.connect(self.OpenRevenueManager)
         self.expenseManager.clicked.connect(self.OpenExpenseManager)
@@ -6371,6 +6283,15 @@ class MainWindow(QMainWindow):
         self.addProgress.clicked.connect(self.OpenGoalProgress)
         self.progressGoalButton.clicked.connect(self.addProgressFunction)
         self.convertButton.clicked.connect(self.convert)
+        self.editAvatar.clicked.connect(self.EditAvatarFunction)
+
+    def EditAvatarFunction(self):
+        self.name = QFileDialog.getOpenFileName(self, 'Выбрать картинку', '')[0]
+        self.curr_image = QImage(self.name).scaled(122, 122)
+        self.pixmapcopy = self.curr_image.copy()
+        self.pixmap = QPixmap.fromImage(self.curr_image)
+        self.pixmap.save(f"Avatars/{self.loginText}.png", "png");
+        self.avatar.setPixmap(self.pixmap)
 
     def hideMenu(self):
         self.expenseManagerMenu.hide()
@@ -6379,10 +6300,9 @@ class MainWindow(QMainWindow):
         self.currencyConvertatorMenu.hide()
         self.MainMenu.hide()
 
-    def BackgroundUpdate(self, fileName):
-        self.background.setStyleSheet("""border-image: url(:/pictures/images.jpg);
-                border-radius: 35px""")
-        self.avatarFrame.setStyleSheet("""border-image: url(:/pictures/Рамка для аватарки.png)""")
+    def BackgroundUpdate(self):
+        self.background.setStyleSheet("""border-image:url(:/Images/BackgroudMainWindow.jpg);
+         border-radius: 20px;""")
 
     def WindowTransparency(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
@@ -6452,10 +6372,10 @@ class MainWindow(QMainWindow):
 
     def OpenGoalPlannerMenu(self):
         try:
-            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
                 goals = file.readlines()
         except:
-            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+            with open(f'Goals/goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
                 for goal in self.data:
                     file.writelines(';'.join(goal) + '\n')
         self.hideMenu()
@@ -6468,7 +6388,7 @@ class MainWindow(QMainWindow):
     def OpenGoalProgress(self):
         self.goalsinformation.setColumnCount(3)
         self.goalsinformation.setHorizontalHeaderLabels(['Номер', 'Цель', 'Прогресс'])
-        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+        with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
             goals = file.readlines()
             goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
         for i, row in enumerate(goals):
@@ -6637,7 +6557,7 @@ class MainWindow(QMainWindow):
                 if a < 0:
                     self.addGoalResult.setText('Ошибка: Укажите цель без минуса')
                 else:
-                    with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+                    with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
                         goals = file.readlines()
                         goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
                         count = 0
@@ -6657,7 +6577,7 @@ class MainWindow(QMainWindow):
                         if count == 8:
                             self.addExpenseErrorLabel.setText('Ошибка: Все цели заняты')
                         else:
-                            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                            with open(f'Goals/goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
                                 for goal in changed_goals:
                                     file.writelines(';'.join(goal) + '\n')
                         self.addGoalResult.setText('')
@@ -6675,7 +6595,7 @@ class MainWindow(QMainWindow):
                 if a < 0:
                     self.progressGoalResult.setText('Ошибка: Укажите цель без минуса')
                     return
-            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
                 goals = file.readlines()
                 goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
             if goals[self.selectEditGoalProgress.value() - 1][1] == 'Не используется':
@@ -6689,7 +6609,7 @@ class MainWindow(QMainWindow):
                 goals[self.selectEditGoalProgress.value() - 1][4] \
                  = str(int(goals[self.selectEditGoalProgress.value() - 1][4]) + int(self.entersSummGoalProgress.text()))
                 print(goals)
-                with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+                with open(f'Goals/goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
                     for goal in goals:
                         file.writelines(';'.join(goal) + '\n')
             self.progressGoalResult.setText('')
@@ -6706,7 +6626,7 @@ class MainWindow(QMainWindow):
                 if a < 0:
                     self.editGoalResult.setText('Ошибка: Укажите цель без минуса')
                     return
-            with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+            with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
                 goals = file.readlines()
                 goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
             if goals[self.selectEditGoal.value() - 1][1] == 'Не используется':
@@ -6725,7 +6645,7 @@ class MainWindow(QMainWindow):
                     goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
                 else:
                     goals[self.selectEditGoal.value() - 1][5] = self.selectEditColor.currentText()
-            with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+            with open(f'Goals/goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
                 for goal in goals:
                     file.writelines(';'.join(goal) + '\n')
             self.editGoalResult.setText('')
@@ -6738,7 +6658,7 @@ class MainWindow(QMainWindow):
             self.editGoalResult.setText('Ошибка: Цель должна \nсостоять из цифр')
 
     def UpdateGoalsFunction(self):
-        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+        with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
             goals = file.readlines()
             goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
         for goal in goals:
@@ -6814,7 +6734,7 @@ class MainWindow(QMainWindow):
                     self.goalProgressLabel8.setText('Не используется')
 
     def DeleteGoalFunction(self):
-        with open(f'goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
+        with open(f'Goals/goals{self.loginText}.txt', mode='r', encoding='utf-8') as file:
             goals = file.readlines()
             goals = [goal[:len(goal) - 1].split(';') if '\n' in goal else goal.split(';') for goal in goals]
         if goals[self.selectEditGoal.value() - 1][1] == 'Не используется':
@@ -6826,7 +6746,7 @@ class MainWindow(QMainWindow):
             goals[self.selectEditGoal.value() - 1][3] = '0'
             goals[self.selectEditGoal.value() - 1][4] = '0'
             goals[self.selectEditGoal.value() - 1][5] = 'blue'
-        with open(f'goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
+        with open(f'Goals/goals{self.loginText}.txt', mode='w', encoding='UTF-8') as file:
             for goal in goals:
                 file.writelines(';'.join(goal) + '\n')
         self.editGoalResult.setText('')
@@ -6849,11 +6769,15 @@ class MainWindow(QMainWindow):
         if self.convertibleAmount.text() == '':
             self.convertLabelError.setText('Ошибка: Введите сумму конвертации')
             return
-        if first_currency == second_currency:
-            self.convertedAmount.setText(amount)
-            return
         try:
             amount = int(self.convertibleAmount.text())
+            if amount < 0:
+                self.convertLabelError.setText('Ошибка: Укажите сумму без минуса')
+                return
+            if first_currency == second_currency:
+                self.convertedAmount.setText(str(amount))
+                self.convertLabelError.setText('')
+                return
             try:
                 result = currency.convert(first_currency, second_currency, amount)
                 self.convertedAmount.setText(str(result))
@@ -6891,15 +6815,20 @@ class SettingsWindow(QMainWindow):
         super().__init__()
         f = io.StringIO(settingsTemplate)
         uic.loadUi(f, self)
-        self.BackgroundUpdate(NAME)
-        self.WindowTransparency()
+        self.setWindowTitle('Settings')
+        self.BackgroundUpdate()
         self.disableAutomaticLoginButton.clicked.connect(self.DisableAutomaticLoginFunction)
         self.exitButton.clicked.connect(self.ExitProgram)
-        self.closeSettingsButton.clicked.connect(self.closeSettings)
+        self.closeSettings.clicked.connect(self.closeSettingsFunction)
 
-    def BackgroundUpdate(self, fileName):
-        self.background.setStyleSheet("""border-image: url(:/pictures/Картинка для настроек.jpg);
-                border-radius: 35px""")
+    def resizeEvent(self, event):
+        new_size = event.size()
+        self.border.resize(new_size.width(), new_size.height())
+        self.background.resize(new_size.width() - 20, new_size.height() - 20)
+        super().resizeEvent(event)
+    def BackgroundUpdate(self):
+        self.background.setStyleSheet("""border-image:url(:/Images/SettingsBackground.jpg);
+         border-radius: 20px;""")
 
     def WindowTransparency(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
@@ -6918,7 +6847,7 @@ class SettingsWindow(QMainWindow):
     def ExitProgram(self):
         sys.exit(app.exec_())
 
-    def closeSettings(self):
+    def closeSettingsFunction(self):
         self.hide()
 
 
@@ -6927,13 +6856,12 @@ class ErrorDisableAutomaticLoginWindow(QMainWindow):
         super().__init__()
         f = io.StringIO(errorDisableAutomaticLoginTemplate)
         uic.loadUi(f, self)
-        self.BackgroundUpdate(NAME)
+        self.BackgroundUpdate()
         self.WindowTransparency()
         self.exitFromError.clicked.connect(self.closeError)
 
-    def BackgroundUpdate(self, fileName):
-        self.background.setStyleSheet("""border-image: url(:/pictures/ErrorBackground.jpg);
-                border-radius: 35px""")
+    def BackgroundUpdate(self):
+        self.background.setStyleSheet("""border-image:url(:/Images/ErrorBackground.jpg);""")
 
     def WindowTransparency(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
